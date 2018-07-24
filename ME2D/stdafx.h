@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
 // Copyright (c) 2018 Ivan Kmeťo
@@ -23,14 +23,15 @@
 
 #pragma once
 
+//Windows Header Files
+#include <Windows.h>
+
+
 #define MEDEF_ENG_ENGNAME "Microplane Engine"			// Engine Name
 #define MEDEF_ENG_ENGABBV "ME2D"						// Engine Name Abbreviation
 #define MEDEF_ENG_ENGVERD "1.0"							// Engine Version
-#define MEDEF_ENG_ENGVERS "build 20180721"				// Engine Build/Secondary Version
+#define MEDEF_ENG_ENGVERS "build 20180724"				// Engine Build/Secondary Version
 #define MEDEF_ENG_ENGDEVN "Ivan Kmeťo"					// Engine Developer Name
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
-
-//Windows Header Files
-#include <windows.h>
+#define SCREEN_WIDTH GetPrivateProfileInt("GlobalSettings", "ScreenWidth", 800, ".\\settings.ini")
+#define SCREEN_HEIGHT GetPrivateProfileInt("GlobalSettings", "ScreenHeight", 600, ".\\settings.ini")
