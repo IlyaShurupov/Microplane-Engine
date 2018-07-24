@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
 // Copyright (c) 2018 Ivan Kmeťo
@@ -29,7 +29,7 @@
 
 void Level1::Load()
 {
-	// Load Image spritesheet.png
+	//Load Image spritesheet.png
 	sprites = new SpriteSheet(L"Edit/dta/dsprites/spritesheet.png", gfx, 64, 64);
 	frame = SPRITEFRAME_PLAYER_RIGHT;
 
@@ -110,8 +110,8 @@ void Level1::Render()
 
 	sprites->Draw(SPRITEFRAME_CLOUD, cloudPosition2, 130);									// Render Cloud2
 
-	for (int i = 0; i < 30; i++)															// Render Bottom Ground
+	for (int i = 0; i < ((SCREEN_WIDTH / 64) + 2); i++)										// Render Bottom Ground
 	{
-		sprites->Draw(SPRITEFRAME_GROUND, SCREEN_WIDTH - (64 * i), SCREEN_HEIGHT - 64);
+		sprites->Draw(SPRITEFRAME_GROUND, SCREEN_WIDTH - (64.0f * i), SCREEN_HEIGHT - 64.0f);
 	}
 }
