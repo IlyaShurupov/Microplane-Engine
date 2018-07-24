@@ -1,0 +1,3 @@
+[build 20180724] [1.0]
+- SCREEN_WIDTH and SCREEN_HEIGHT values are now readable from settings.ini file (stdafx.h)
+- Updated "for loop" for rendering ground sprites, now the amount of rendered sprites depends on SCREEN_WIDTH value (Level1.cpp)
