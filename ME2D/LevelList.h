@@ -24,3 +24,4 @@
 #pragma once
 
 #include "Level1.h"			// LEVEL 1 - DEMO SCENE
+#include "Level2.h"			// LEVEL 2 - D2D OBJECTS DEMO SCENE
