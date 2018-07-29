@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
 // Copyright (c) 2018 Ivan Kmeťo
@@ -34,6 +34,7 @@ class Graphics
 	ID2D1HwndRenderTarget* renderTarget;
 
 	ID2D1SolidColorBrush* brush;
+	ID2D1SolidColorBrush* fillBrush;
 
 public:
 	Graphics();
@@ -51,6 +52,14 @@ public:
 
 	void ClearScreen(float r, float g, float b);
 
-	void DrawCircle(float x, float y, float radius, float r, float g, float b, float a);
-	void DrawRectangle(float x, float y, float rectleft, float recttop, float rectright, float rectbottom, float r, float g, float b, float a);
+
+	//-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
+
+	void RenderCircleRGBA(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
+	void RenderCircleRGBAF(float x, float y, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
+
+	void RenderEllipseRGBA(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
+
+	void RenderSquareRGBA(float x, float y, float size, float r, float g, float b, float a, float strokesize);
+	void RenderSquareRGBAF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 };
