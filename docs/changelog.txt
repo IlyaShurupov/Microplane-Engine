@@ -1,3 +1,7 @@
+[build 20180729] [1.0]
+- Reworked old 2D geometrical objects + added new (Graphics.cpp/.h)
+- Added Level2 for testing purposes of 2D geometrical objects (Level2.cpp/.h, LevelList.h)
+
 [build 20180724] [1.0]
 - SCREEN_WIDTH and SCREEN_HEIGHT values are now readable from settings.ini file (stdafx.h)
 - Updated "for loop" for rendering ground sprites, now the amount of rendered sprites depends on SCREEN_WIDTH value (Level1.cpp)
