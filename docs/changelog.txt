@@ -1,3 +1,8 @@
+[build 20180806] [1.0]
+- Added function ASSERT_D3D for improved Error logging (Graphics.cpp/ErrorList.txt)
+- Minor changes for member names/prefixes (Graphics.cpp/.h)
+- Implemented new 2D geometrical objects (Graphics.cpp/.h, Level2.cpp)
+
 [build 20180729] [1.0]
 - Reworked old 2D geometrical objects + added new (Graphics.cpp/.h)
 - Added Level2 for testing purposes of 2D geometrical objects (Level2.cpp/.h, LevelList.h)
