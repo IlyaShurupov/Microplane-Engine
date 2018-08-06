@@ -43,11 +43,14 @@ void Level2::Render()
 {
 	gfx->ClearScreen(0.0f, 0.0f, 0.5f);
 	
-	gfx->RenderCircleRGBA(75.0f, 75.0f, 40.0f, 1.0f, 1.0f, 0.0f, 1.0f, 5.0f);
-	gfx->RenderCircleRGBAF(200.0f, 75.0f, 40.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	gfx->RenderCircleRGBA(75.0f, 75.0f, 40.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderCircleRGBAF(200.0f, 75.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderCircleRGBASF(325.0f, 75.0f, 40.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	gfx->RenderEllipseRGBA(75.0f, 175.0f, 40.0f, 30.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderEllipseRGBAF(200.0f, 175.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
 
 	gfx->RenderSquareRGBA(75.0f, 275.0f, 80.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderSquareRGBAF(200.0f, 275.0f, 80.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 1.0f, 0.0f, 1.0f, 1.0f);
+	gfx->RenderSquareRGBAF(200.0f, 275.0f, 80.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderSquareRGBASF(325.0f, 275.0f, 80.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 }
