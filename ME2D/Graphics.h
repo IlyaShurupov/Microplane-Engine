@@ -30,11 +30,11 @@
 
 class Graphics
 {
-	ID2D1Factory* factory;
-	ID2D1HwndRenderTarget* renderTarget;
+	ID2D1Factory* m_pFactory;
+	ID2D1HwndRenderTarget* m_pRenderTarget;
 
-	ID2D1SolidColorBrush* brush;
-	ID2D1SolidColorBrush* fillBrush;
+	ID2D1SolidColorBrush* m_pMainBrush;
+	ID2D1SolidColorBrush* m_pFillBrush;
 
 public:
 	Graphics();
@@ -44,11 +44,11 @@ public:
 
 	ID2D1RenderTarget* GetRenderTarget() // GetRenderTarget in file [SpriteSheet.cpp]
 	{
-		return renderTarget;
+		return m_pRenderTarget;
 	}
 
-	void BeginDraw() { renderTarget->BeginDraw(); }
-	void EndDraw() { renderTarget->EndDraw(); }
+	void BeginDraw() { m_pRenderTarget->BeginDraw(); }
+	void EndDraw() { m_pRenderTarget->EndDraw(); }
 
 	void ClearScreen(float r, float g, float b);
 
@@ -56,10 +56,13 @@ public:
 	//-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
 
 	void RenderCircleRGBA(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
-	void RenderCircleRGBAF(float x, float y, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
+	void RenderCircleRGBAF(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
+	void RenderCircleRGBASF(float x, float y, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 
 	void RenderEllipseRGBA(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
+	void RenderEllipseRGBAF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
 
 	void RenderSquareRGBA(float x, float y, float size, float r, float g, float b, float a, float strokesize);
-	void RenderSquareRGBAF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
+	void RenderSquareRGBAF(float x, float y, float size, float r, float g, float b, float a, float strokesize);
+	void RenderSquareRGBASF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 };
