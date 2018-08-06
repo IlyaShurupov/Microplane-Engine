@@ -1,0 +1,6 @@
+[ID] [Description] [HRESULT]
+
+[ERRD2D1001] D2D1 Factory failed to initialize! (errchck001)
+[ERRD2D1002] D2D1 Factory failed to create ID2D1HwndRenderTarget! (errchck002)
+[ERRD2D1003] Failed to create Solid Color Brush! (errchck003)
+[ERRD2D1004] Failed to create Solid Color Brush! (errchck004)
