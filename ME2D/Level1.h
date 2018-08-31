@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
 // Copyright (c) 2018 Ivan Kmeťo
@@ -37,19 +37,20 @@ class Level1 : public GameLevel
 	float cloudPosition2;
 	float xWallPosition;
 
-	SpriteSheet* sprites;
+	SpriteSheet* s_sprites;
+	SpriteSheet* s_starAnim;
 
 	int frame;
+	int framestaranim;
 
 #define SPRITEFRAME_PLAYER_LEFT 0
 #define SPRITEFRAME_PLAYER_LEFTFLY 1
 #define SPRITEFRAME_PLAYER_RIGHT 2
 #define SPRITEFRAME_PLAYER_RIGHTFLY 3
-#define SPRITEFRAME_CLOUD 4
+#define SPRITEFRAME_PLANET 4
 #define SPRITEFRAME_EMPTY 5
 #define SPRITEFRAME_GROUND 6
-#define SPRITEFRAME_WALL 7
-#define SPRITEFRAME_WALLBROKEN 8
+#define SPRITEFRAME_STARINIT 0
 
 public:
 	void Load() override;
