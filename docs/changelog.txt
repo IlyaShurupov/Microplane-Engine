@@ -1,3 +1,9 @@
+[build 20180831] [1.0]
+- New sprites implemented (Level1.cpp/.h)
+- Added new spritesheet for animated star (Level1.cpp/.h)
+- Implemented Splash Screen which will very likely need further rework (SplashScreen.cpp/.h, LevelList.h, main.cpp)
+- Implemented new 2D geometrical objects (Graphics.cpp/.h, Level2.cpp)
+
 [build 20180806] [1.0]
 - Added function ASSERT_D3D for improved Error logging (Graphics.cpp/ErrorList.txt)
 - Minor changes for member names/prefixes (Graphics.cpp/.h)
