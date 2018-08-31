@@ -43,14 +43,29 @@ void Level2::Render()
 {
 	gfx->ClearScreen(0.0f, 0.0f, 0.5f);
 	
-	gfx->RenderCircleRGBA(75.0f, 75.0f, 40.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderCircleRGBAF(200.0f, 75.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderCircleRGBASF(325.0f, 75.0f, 40.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	// Circles
+	gfx->RenderCircleRGBA(75.0f, 60.0f, 40.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderCircleRGBAF(200.0f, 60.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderCircleRGBASF(325.0f, 60.0f, 40.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	gfx->RenderEllipseRGBA(75.0f, 175.0f, 40.0f, 30.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderEllipseRGBAF(200.0f, 175.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	// Ellipses
+	gfx->RenderEllipseRGBA(75.0f, 160.0f, 40.0f, 30.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderEllipseRGBAF(200.0f, 160.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderEllipseRGBASF(325.0f, 160.0f, 40.0f, 30.f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	gfx->RenderSquareRGBA(75.0f, 275.0f, 80.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderSquareRGBAF(200.0f, 275.0f, 80.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderSquareRGBASF(325.0f, 275.0f, 80.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	// Squares
+	gfx->RenderSquareRGBA(75.0f, 260.0f, 80.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderSquareRGBAF(200.0f, 260.0f, 80.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderSquareRGBASF(325.0f, 260.0f, 80.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Rounded Squares
+	gfx->RenderRoundSquareRGBA(75.0f, 365.0f, 80.0f, 10.f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+
+	// Rectangles
+	gfx->RenderRectRGBA(75.0f, 460.0f, 90.0f, 60.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderRectRGBAF(200.0f, 460.0f, 90.0f, 60.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderRectRGBASF(325.0f, 460.0f, 90.0f, 60.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Rounded Rectangles
+	gfx->RenderRoundRectRGBA(75.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
 }
