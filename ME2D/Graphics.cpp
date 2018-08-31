@@ -153,6 +153,19 @@ void Graphics::RenderEllipseRGBAF(float x, float y, float xRadius, float yRadius
 	m_pRenderTarget->FillEllipse(ellipse, m_pFillBrush);
 }
 
+void Graphics::RenderEllipseRGBASF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+	D2D1_ELLIPSE ellipse = D2D1::Ellipse(
+		D2D1::Point2F(x, y),
+		xRadius,
+		yRadius
+	);
+	m_pRenderTarget->DrawEllipse(ellipse, m_pMainBrush, strokesize);
+	m_pRenderTarget->FillEllipse(ellipse, m_pFillBrush);
+}
+
 
 void Graphics::RenderSquareRGBA(float x, float y, float size, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
@@ -192,4 +205,65 @@ void Graphics::RenderSquareRGBASF(float x, float y, float size, float r, float g
 	);
 	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
 	m_pRenderTarget->FillRectangle(square, m_pFillBrush);
+}
+
+
+void Graphics::RenderRoundSquareRGBA(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	D2D1_ROUNDED_RECT rsquare = D2D1::RoundedRect(
+		D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius
+	);
+	m_pRenderTarget->DrawRoundedRectangle(rsquare, m_pMainBrush, strokesize);
+}
+
+
+void Graphics::RenderRectRGBA(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	D2D1_RECT_F square = D2D1::RectF(
+		x - (width / 2),
+		y - (height / 2),
+		x + (width / 2),
+		y + (height / 2)
+	);
+	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
+}
+
+void Graphics::RenderRectRGBAF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	D2D1_RECT_F square = D2D1::RectF(
+		x - (width / 2),
+		y - (height / 2),
+		x + (width / 2),
+		y + (height / 2)
+	);
+	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRectangle(square, m_pFillBrush);
+}
+
+void Graphics::RenderRectRGBASF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+	D2D1_RECT_F square = D2D1::RectF(
+		x - (width / 2),
+		y - (height / 2),
+		x + (width / 2),
+		y + (height / 2)
+	);
+	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRectangle(square, m_pFillBrush);
+}
+
+
+void Graphics::RenderRoundRectRGBA(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	D2D1_ROUNDED_RECT rrect = D2D1::RoundedRect(
+		D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius
+	);
+	m_pRenderTarget->DrawRoundedRectangle(rrect, m_pMainBrush, strokesize);
 }
