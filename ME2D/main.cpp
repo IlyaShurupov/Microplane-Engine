@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
 // Copyright (c) 2018 Ivan Kmeťo
@@ -77,7 +77,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 	GameController::Init();
 
-	GameController::LoadInitialLevel(new Level1()); // Load Initial Level
+	GameController::LoadInitialLevel(new SplashScreen()); // Load Initial Level
 
 	//PEEKMESSAGE LOOP
 	MSG message;
