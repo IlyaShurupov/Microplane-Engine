@@ -23,5 +23,6 @@
 
 #pragma once
 
-#include "Level1.h"			// LEVEL 1 - DEMO SCENE
-#include "Level2.h"			// LEVEL 2 - D2D OBJECTS DEMO SCENE
+#include "SplashScreen.h"   // LEVEL SPLASHSCREEN - Splash Screen
+#include "Level1.h"         // LEVEL 1 - DEMO SCENE
+#include "Level2.h"         // LEVEL 2 - D2D OBJECTS DEMO SCENE
