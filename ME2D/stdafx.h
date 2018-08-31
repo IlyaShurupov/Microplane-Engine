@@ -27,11 +27,11 @@
 #include <Windows.h>
 
 
-#define MEDEF_ENG_ENGNAME "Microplane Engine"			// Engine Name
-#define MEDEF_ENG_ENGABBV "ME2D"						// Engine Name Abbreviation
-#define MEDEF_ENG_ENGVERD "1.0"							// Engine Version
-#define MEDEF_ENG_ENGVERS "build 20180729"				// Engine Build/Secondary Version
-#define MEDEF_ENG_ENGDEVN "Ivan Kmeťo"					// Engine Developer Name
+#define MEDEF_ENG_ENGNAME "Microplane Engine"           // Engine Name
+#define MEDEF_ENG_ENGABBV "ME2D"                        // Engine Name Abbreviation
+#define MEDEF_ENG_ENGVERD "1.0"                         // Engine Version
+#define MEDEF_ENG_ENGVERS "build 20180831"              // Engine Build/Secondary Version
+#define MEDEF_ENG_ENGDEVN "Ivan Kmeťo"                  // Engine Developer Name
 
 #define SCREEN_WIDTH GetPrivateProfileInt("GlobalSettings", "ScreenWidth", 800, ".\\settings.ini")
 #define SCREEN_HEIGHT GetPrivateProfileInt("GlobalSettings", "ScreenHeight", 600, ".\\settings.ini")
