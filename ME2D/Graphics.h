@@ -40,6 +40,11 @@ public:
 	Graphics();
 	~Graphics();
 
+	Graphics(const Graphics &) = delete;
+	Graphics(Graphics &&) = delete;
+	Graphics& operator =(const Graphics &) = delete;
+	Graphics& operator =(Graphics &&) = delete;
+
 	bool Init(HWND windowHandle);
 
 	ID2D1RenderTarget* GetRenderTarget() // GetRenderTarget in file [SpriteSheet.cpp]
@@ -61,8 +66,17 @@ public:
 
 	void RenderEllipseRGBA(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
 	void RenderEllipseRGBAF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
+	void RenderEllipseRGBASF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 
 	void RenderSquareRGBA(float x, float y, float size, float r, float g, float b, float a, float strokesize);
 	void RenderSquareRGBAF(float x, float y, float size, float r, float g, float b, float a, float strokesize);
 	void RenderSquareRGBASF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
+
+	void RenderRoundSquareRGBA(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize);
+
+	void RenderRectRGBA(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize);
+	void RenderRectRGBAF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize);
+	void RenderRectRGBASF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
+
+	void RenderRoundRectRGBA(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize);
 };
