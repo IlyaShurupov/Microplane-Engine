@@ -29,9 +29,11 @@
 
 void Level1::Load()
 {
-	//Load Image spritesheet.png
-	sprites = new SpriteSheet(L"Edit/dta/dsprites/spritesheet.png", gfx, 64, 64);
+	//Load Bitmap Atlas (SpriteSheet)
+	s_sprites = new SpriteSheet(L"Edit/dta/dsprites/bmatlas.png", gfx, 64, 64);
+	s_starAnim = new SpriteSheet(L"Edit/dta/dsprites/bmstaranim.png", gfx, 64, 64);
 	frame = SPRITEFRAME_PLAYER_RIGHT;
+	framestaranim = SPRITEFRAME_STARINIT;
 
 	yPlayerPosition = ySpeed = 0.0f;
 	xPlayerPosition = 0.0f;
@@ -42,7 +44,8 @@ void Level1::Load()
 
 void Level1::UnLoad()
 {
-	delete sprites;
+	if (s_starAnim) delete s_starAnim;
+	if (s_sprites) delete s_sprites;
 }
 
 void Level1::Update(double timeTotal, double timeDelta)
@@ -71,8 +74,8 @@ void Level1::Update(double timeTotal, double timeDelta)
 	{
 		frame = SPRITEFRAME_PLAYER_RIGHTFLY;
 		if (yPlayerPosition > 10.0f) {
-			ySpeed = -2.0f;
-			yPlayerPosition += ySpeed;
+			ySpeed = -3.0f;
+			yPlayerPosition += ySpeed * timeDelta;
 		}
 		if (yPlayerPosition < 10.0f) {
 			ySpeed += 1.0f * timeDelta;
@@ -89,29 +92,27 @@ void Level1::Update(double timeTotal, double timeDelta)
 	if (yPlayerPosition > (SCREEN_HEIGHT - 64.0f - 52.0f)) yPlayerPosition = (SCREEN_HEIGHT - 64.0f - 52.0f);
 	if (xPlayerPosition < 0) xPlayerPosition = 0.0f;
 
-	cloudPosition += 20.0f * timeDelta;
+	/*cloudPosition += 20.0f * timeDelta;
 	if (cloudPosition > SCREEN_WIDTH) cloudPosition = -64.0f;
 
 	cloudPosition2 += 30.0f * timeDelta;
-	if (cloudPosition2 > SCREEN_WIDTH) cloudPosition2 = -64.0f;
+	if (cloudPosition2 > SCREEN_WIDTH) cloudPosition2 = -64.0f;*/
+
+	framestaranim++;
 }
 
 void Level1::Render()
 {
-	gfx->ClearScreen(0.6f, 0.6f, 1.0f);
+	gfx->ClearScreen(0.286f, 0.302f, 0.494f);
 
+	s_sprites->Draw(SPRITEFRAME_PLANET % 5, (SCREEN_WIDTH - 200.0f), 50.0f);                // Render Planet
+	s_starAnim->Draw((framestaranim / 10) % 5, 125.0f, 75.0f);                              // Render First Star
+	s_starAnim->Draw((framestaranim / 10) % 5, (SCREEN_WIDTH - 300.0f), 150.0f);            // Render Second Star
 
-	sprites->Draw(SPRITEFRAME_CLOUD % 5, cloudPosition, 80);								// Render Cloud
+	s_sprites->Draw(frame % 4, xPlayerPosition, yPlayerPosition);                           // Render Player
 
-	sprites->Draw(SPRITEFRAME_WALLBROKEN, xWallPosition, SCREEN_HEIGHT - 64 - 52);			// Render Wall
-	sprites->Draw(SPRITEFRAME_WALLBROKEN, xWallPosition, SCREEN_HEIGHT - (64 * 2) - 52);	// Render Wall
-
-	sprites->Draw(frame % 4, xPlayerPosition, yPlayerPosition);								// Render Player
-
-	sprites->Draw(SPRITEFRAME_CLOUD, cloudPosition2, 130);									// Render Cloud2
-
-	for (int i = 0; i < ((SCREEN_WIDTH / 64) + 2); i++)										// Render Bottom Ground
+	for (int i = 0; i < ((SCREEN_WIDTH / 64) + 2); i++)                                     // Render Bottom Ground
 	{
-		sprites->Draw(SPRITEFRAME_GROUND, SCREEN_WIDTH - (64.0f * i), SCREEN_HEIGHT - 64.0f);
+		s_sprites->Draw(SPRITEFRAME_GROUND, SCREEN_WIDTH - (64.0f * i), SCREEN_HEIGHT - 64.0f);
 	}
 }
