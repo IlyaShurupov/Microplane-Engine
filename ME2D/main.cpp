@@ -21,12 +21,11 @@
 //
 //============================================================================
 
-#include "stdafx.h"
 #include "Graphics.h"
 #include "GameController.h"
 #include "LevelList.h"
 #include "uConfig.h"
-#include "Logger.h"
+#include "MEUtils.h"
 
 Graphics* graphics;
 
