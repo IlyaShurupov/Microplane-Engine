@@ -1,3 +1,8 @@
+[build 20180901] [1.0]
+- Added file MEUtils.h for debugging/helper/utility functions etc. (Graphics.cpp, main.cpp)
+- Improved Error checking (MEUtils.h, SpriteSheet.cpp, ErrorList.txt)
+- Implemented new 2D geometrical objects (Graphics.cpp/.h, Level2.cpp)
+
 [build 20180831] [1.0]
 - New sprites implemented (Level1.cpp/.h)
 - Added new spritesheet for animated star (Level1.cpp/.h)
