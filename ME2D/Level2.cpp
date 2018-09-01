@@ -59,7 +59,9 @@ void Level2::Render()
 	gfx->RenderSquareRGBASF(325.0f, 260.0f, 80.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Rounded Squares
-	gfx->RenderRoundSquareRGBA(75.0f, 365.0f, 80.0f, 10.f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderRoundSquareRGBA(75.0f, 365.0f, 80.0f, 10.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderRoundSquareRGBAF(200.0f, 365.0f, 80.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderRoundSquareRGBASF(325.0f, 365.0f, 80.0f, 10.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Rectangles
 	gfx->RenderRectRGBA(75.0f, 460.0f, 90.0f, 60.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
@@ -68,4 +70,6 @@ void Level2::Render()
 
 	// Rounded Rectangles
 	gfx->RenderRoundRectRGBA(75.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderRoundRectRGBAF(200.0f, 550.0f, 90.0f, 60.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
+	gfx->RenderRoundRectRGBASF(325.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 }
