@@ -21,18 +21,9 @@
 //
 //============================================================================
 
-#include "stdafx.h"
 #include "Graphics.h"
-#include "Logger.h"
+#include "MEUtils.h"
 
-
-void ASSERT_D3D(HRESULT value, std::string description, std::string msgboxTitle) {
-	MessageBox(nullptr, description.c_str(), msgboxTitle.c_str(), MB_OK | MB_ICONERROR);
-	Log_Open("debug.log");
-	Error(value);
-	Log_Write(description);
-	Log_Close();
-}
 
 Graphics::Graphics()
 {
@@ -54,7 +45,7 @@ bool Graphics::Init(HWND windowHandle)
 {
 	HRESULT errchck001 = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pFactory);
 	if (errchck001 != S_OK) {
-		ASSERT_D3D(errchck001, "[ERRD2D1001] D2D1 Factory failed to initialize!", "Error");
+		ASSERT_ME2D(errchck001, "[ERRD2D1001] D2D1 Factory failed to initialize!", "Error");
 		return false;
 	}
 
@@ -63,19 +54,19 @@ bool Graphics::Init(HWND windowHandle)
 
 	HRESULT errchck002 = m_pFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(), D2D1::HwndRenderTargetProperties(windowHandle, D2D1::SizeU(rect.right, rect.bottom)), &m_pRenderTarget);
 	if (errchck002 != S_OK) {
-		ASSERT_D3D(errchck002, "[ERRD2D1002] D2D1 Factory failed to create ID2D1HwndRenderTarget!", "Error");
+		ASSERT_ME2D(errchck002, "[ERRD2D1002] D2D1 Factory failed to create ID2D1HwndRenderTarget!", "Error");
 		return false;
 	}
 
 	HRESULT errchck003 = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &m_pMainBrush);
 	if (errchck003 != S_OK) {
-		ASSERT_D3D(errchck003, "[ERRD2D1003] Failed to create Solid Color Brush!", "Error");
+		ASSERT_ME2D(errchck003, "[ERRD2D1003] Failed to create Solid Color Brush!", "Error");
 		return false;
 	}
 
 	HRESULT errchck004 = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &m_pFillBrush);
 	if (errchck004 != S_OK) {
-		ASSERT_D3D(errchck004, "[ERRD2D1004] Failed to create Solid Color Brush!", "Error");
+		ASSERT_ME2D(errchck004, "[ERRD2D1004] Failed to create Solid Color Brush!", "Error");
 		return false;
 	}
 
@@ -217,6 +208,28 @@ void Graphics::RenderRoundSquareRGBA(float x, float y, float size, float radius,
 	m_pRenderTarget->DrawRoundedRectangle(rsquare, m_pMainBrush, strokesize);
 }
 
+void Graphics::RenderRoundSquareRGBAF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	D2D1_ROUNDED_RECT rsquare = D2D1::RoundedRect(
+		D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius
+	);
+	m_pRenderTarget->DrawRoundedRectangle(rsquare, m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(rsquare, m_pFillBrush);
+}
+
+void Graphics::RenderRoundSquareRGBASF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+	D2D1_ROUNDED_RECT rsquare = D2D1::RoundedRect(
+		D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius
+	);
+	m_pRenderTarget->DrawRoundedRectangle(rsquare, m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(rsquare, m_pFillBrush);
+}
+
 
 void Graphics::RenderRectRGBA(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
@@ -266,4 +279,26 @@ void Graphics::RenderRoundRectRGBA(float x, float y, float width, float height, 
 		D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius
 	);
 	m_pRenderTarget->DrawRoundedRectangle(rrect, m_pMainBrush, strokesize);
+}
+
+void Graphics::RenderRoundRectRGBAF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	D2D1_ROUNDED_RECT rrect = D2D1::RoundedRect(
+		D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius
+	);
+	m_pRenderTarget->DrawRoundedRectangle(rrect, m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(rrect, m_pFillBrush);
+}
+
+void Graphics::RenderRoundRectRGBASF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+	D2D1_ROUNDED_RECT rrect = D2D1::RoundedRect(
+		D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius
+	);
+	m_pRenderTarget->DrawRoundedRectangle(rrect, m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(rrect, m_pFillBrush);
 }
