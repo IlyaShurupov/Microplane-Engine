@@ -4,3 +4,9 @@
 [ERRD2D1002] D2D1 Factory failed to create ID2D1HwndRenderTarget! (errchck002)
 [ERRD2D1003] Failed to create Solid Color Brush! (errchck003)
 [ERRD2D1004] Failed to create Solid Color Brush! (errchck004)
+
+[ERRSPRS001] WIC Factory failed to initialize CoCreateInstance! (errchck005)
+[ERRSPRS002] WIC Factory failed to Create Decoder from File! (errchck006) 
+[ERRSPRS003] WIC Factory failed to read frame from the image! (errchck007)
+[ERRSPRS004] WIC Factory failed to create Format Converter! (errchck008)
+[ERRSPRS005] WIC Factory failed to set up Format Converter! (errchck009)
