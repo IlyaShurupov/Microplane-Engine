@@ -73,10 +73,14 @@ public:
 	void RenderSquareRGBASF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 
 	void RenderRoundSquareRGBA(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize);
+	void RenderRoundSquareRGBAF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize);
+	void RenderRoundSquareRGBASF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 
 	void RenderRectRGBA(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize);
 	void RenderRectRGBAF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize);
 	void RenderRectRGBASF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 
 	void RenderRoundRectRGBA(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize);
+	void RenderRoundRectRGBAF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize);
+	void RenderRoundRectRGBASF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
 };
