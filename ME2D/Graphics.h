@@ -33,6 +33,7 @@ class Graphics
 	ID2D1Factory* m_pFactory;
 	ID2D1HwndRenderTarget* m_pRenderTarget;
 
+	ID2D1StrokeStyle* m_pStrokeStyle;
 	ID2D1SolidColorBrush* m_pMainBrush;
 	ID2D1SolidColorBrush* m_pFillBrush;
 
@@ -63,6 +64,8 @@ public:
 	void RenderCircleRGBA(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
 	void RenderCircleRGBAF(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
 	void RenderCircleRGBASF(float x, float y, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
+
+	void RenderCircleRGBADotted(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
 
 	void RenderEllipseRGBA(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
 	void RenderEllipseRGBAF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
