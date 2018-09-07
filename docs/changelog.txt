@@ -1,3 +1,8 @@
+[build 20180907] [1.0]
+- Added function GameController::UnLoad() (GameController.cpp/.h, main.cpp)
+- Added function RenderCircleRGBADotted for rendering 2D Circle with dotted outline (Graphics.cpp/.h, Level2.cpp) [!TEST]
+- Removed unused floats xWallPosition, cloudPosition, cloudPosition2 (Level1.cpp/.h)
+
 [build 20180901] [1.0]
 - Added file MEUtils.h for debugging/helper/utility functions etc. (Graphics.cpp, main.cpp)
 - Improved Error checking (MEUtils.h, SpriteSheet.cpp, ErrorList.txt)
