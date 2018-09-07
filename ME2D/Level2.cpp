@@ -48,6 +48,8 @@ void Level2::Render()
 	gfx->RenderCircleRGBAF(200.0f, 60.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
 	gfx->RenderCircleRGBASF(325.0f, 60.0f, 40.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
+	gfx->RenderCircleRGBADotted(450.0f, 60.0f, 40.0f, 1.0f, 1.0f, 0.0f, 1.0f, 3.0f);
+
 	// Ellipses
 	gfx->RenderEllipseRGBA(75.0f, 160.0f, 40.0f, 30.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
 	gfx->RenderEllipseRGBAF(200.0f, 160.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
