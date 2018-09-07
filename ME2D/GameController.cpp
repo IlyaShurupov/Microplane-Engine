@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
 // Copyright (c) 2018 Ivan Kmeťo
@@ -67,7 +67,16 @@ void GameController::Update()
 {
 	if (Loading) return;
 
-	hpTimer->Update();				// Updating HP timer before Level Update
+	hpTimer->Update();            // Updating HP Timer before Level Update
 
 	currentLevel->Update(hpTimer->GetTimeTotal(), hpTimer->GetTimeDelta());
+}
+
+void GameController::UnLoad()
+{
+	Loading = true;
+	currentLevel->UnLoad();
+	delete currentLevel;
+	delete hpTimer;
+	Loading = false;
 }
