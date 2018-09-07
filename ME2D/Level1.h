@@ -33,9 +33,6 @@ class Level1 : public GameLevel
 
 	float xPlayerPosition;
 	float yPlayerPosition;
-	float cloudPosition;
-	float cloudPosition2;
-	float xWallPosition;
 
 	SpriteSheet* s_sprites;
 	SpriteSheet* s_starAnim;
