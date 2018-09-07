@@ -37,9 +37,6 @@ void Level1::Load()
 
 	yPlayerPosition = ySpeed = 0.0f;
 	xPlayerPosition = 0.0f;
-	cloudPosition = 0.0f;
-	cloudPosition2 = 200.0f;
-	xWallPosition = 400.0f;
 }
 
 void Level1::UnLoad()
@@ -91,12 +88,6 @@ void Level1::Update(double timeTotal, double timeDelta)
 	if (xPlayerPosition > (SCREEN_WIDTH - 64.0f)) xPlayerPosition = (SCREEN_WIDTH - 64.0f);
 	if (yPlayerPosition > (SCREEN_HEIGHT - 64.0f - 52.0f)) yPlayerPosition = (SCREEN_HEIGHT - 64.0f - 52.0f);
 	if (xPlayerPosition < 0) xPlayerPosition = 0.0f;
-
-	/*cloudPosition += 20.0f * timeDelta;
-	if (cloudPosition > SCREEN_WIDTH) cloudPosition = -64.0f;
-
-	cloudPosition2 += 30.0f * timeDelta;
-	if (cloudPosition2 > SCREEN_WIDTH) cloudPosition2 = -64.0f;*/
 
 	framestaranim++;
 }
