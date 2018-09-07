@@ -97,6 +97,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 	}
 	//PEEK MESSAGE LOOP END
 
+	GameController::UnLoad();
+
 	delete graphics;
 
 	Log_End("debug.log");
