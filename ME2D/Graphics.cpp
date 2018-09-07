@@ -29,12 +29,14 @@ Graphics::Graphics()
 {
 	m_pFactory = NULL;
 	m_pRenderTarget = NULL;
+	m_pStrokeStyle = NULL;
 	m_pMainBrush = NULL;
 	m_pFillBrush = NULL;
 }
 
 Graphics::~Graphics()
 {
+	if (m_pStrokeStyle) m_pStrokeStyle->Release();
 	if (m_pFillBrush) m_pFillBrush->Release();
 	if (m_pMainBrush) m_pMainBrush->Release();
 	if (m_pRenderTarget) m_pRenderTarget->Release();
@@ -117,6 +119,29 @@ void Graphics::RenderCircleRGBASF(float x, float y, float radius, float r, float
 	);
 	m_pRenderTarget->DrawEllipse(circle, m_pMainBrush, strokesize);
 	m_pRenderTarget->FillEllipse(circle, m_pFillBrush);
+}
+
+
+void Graphics::RenderCircleRGBADotted(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {
+	D2D1_STROKE_STYLE_PROPERTIES strokeStyleProperties = D2D1::StrokeStyleProperties(
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_TRIANGLE,
+		D2D1_LINE_JOIN_MITER,
+		10.0f,
+		D2D1_DASH_STYLE_DOT,
+		0.0f
+	);
+	m_pFactory->CreateStrokeStyle(strokeStyleProperties, NULL, 0, &m_pStrokeStyle);
+	
+	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	D2D1_ELLIPSE circle = D2D1::Ellipse(
+		D2D1::Point2F(x, y),
+		radius,
+		radius
+	);
+	m_pRenderTarget->DrawEllipse(circle, m_pMainBrush, strokesize, m_pStrokeStyle);
 }
 
 
