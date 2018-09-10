@@ -1,3 +1,8 @@
+[build 20180910] [1.1]
+- Implementation of DirectWrite (Graphics.cpp/.h, Level1.cpp, ErrorList.txt)
+- Stroke Style initializations moved to Graphics::Init (Graphics.cpp/.h, ErrorList.txt)
+- Simplified syntax for 2D geometrical objects (Graphics.cpp/.h)
+
 [build 20180907] [1.0]
 - Added function GameController::UnLoad() (GameController.cpp/.h, main.cpp)
 - Added function RenderCircleRGBADotted for rendering 2D Circle with dotted outline (Graphics.cpp/.h, Level2.cpp) [!TEST]
