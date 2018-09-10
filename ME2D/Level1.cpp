@@ -106,4 +106,6 @@ void Level1::Render()
 	{
 		s_sprites->Draw(SPRITEFRAME_GROUND, SCREEN_WIDTH - (64.0f * i), SCREEN_HEIGHT - 64.0f);
 	}
+
+	gfx->RenderText(L"Movement Controls: ARROW KEYS + SPACE", 20, 20, 1.0f, 1.0f, 1.0f, 1.0f);
 }
