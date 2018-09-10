@@ -29,14 +29,26 @@ Graphics::Graphics()
 {
 	m_pFactory = NULL;
 	m_pRenderTarget = NULL;
-	m_pStrokeStyle = NULL;
+	m_pStrokeStyleDotted = NULL;
+	m_pStrokeStyleDashed = NULL;
+	m_pStrokeStyleDashDotted = NULL;
+	m_pStrokeStyleDashDotDotted = NULL;
 	m_pMainBrush = NULL;
 	m_pFillBrush = NULL;
+	m_pDWriteFactory = NULL;
+	m_pTextFormat = NULL;
+	m_pTextBrush = NULL;
 }
 
 Graphics::~Graphics()
 {
-	if (m_pStrokeStyle) m_pStrokeStyle->Release();
+	if (m_pTextBrush) m_pTextBrush->Release();
+	if (m_pTextFormat) m_pTextFormat->Release();
+	if (m_pDWriteFactory) m_pDWriteFactory->Release();
+	if (m_pStrokeStyleDashDotDotted) m_pStrokeStyleDashDotDotted->Release();
+	if (m_pStrokeStyleDashDotted) m_pStrokeStyleDashDotted->Release();
+	if (m_pStrokeStyleDashed) m_pStrokeStyleDashed->Release();
+	if (m_pStrokeStyleDotted) m_pStrokeStyleDotted->Release();
 	if (m_pFillBrush) m_pFillBrush->Release();
 	if (m_pMainBrush) m_pMainBrush->Release();
 	if (m_pRenderTarget) m_pRenderTarget->Release();
@@ -49,6 +61,14 @@ bool Graphics::Init(HWND windowHandle)
 	if (errchck001 != S_OK) {
 		ASSERT_ME2D(errchck001, "[ERRD2D1001] D2D1 Factory failed to initialize!", "Error");
 		return false;
+	}
+
+	if (SUCCEEDED(errchck001)) {
+		HRESULT errchck010 = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
+		if (errchck010 != S_OK) {
+			ASSERT_ME2D(errchck010, "[ERRDWRT001] DirectWrite Factory failed to initialize!", "Error");
+			return false;
+		}
 	}
 
 	RECT rect;
@@ -72,6 +92,104 @@ bool Graphics::Init(HWND windowHandle)
 		return false;
 	}
 
+
+	//Stroke Styles
+	D2D1_STROKE_STYLE_PROPERTIES strokeStylePropertiesDotted = D2D1::StrokeStyleProperties(
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_TRIANGLE,
+		D2D1_LINE_JOIN_MITER,
+		10.0f,
+		D2D1_DASH_STYLE_DOT,
+		0.0f
+	);
+	HRESULT errchck015 = m_pFactory->CreateStrokeStyle(strokeStylePropertiesDotted, NULL, 0, &m_pStrokeStyleDotted);
+	if (errchck015 != S_OK) {
+		ASSERT_ME2D(errchck015, "[ERRD2D1006] Failed to create Stroke Style Dotted!", "Error");
+		return false;
+	}
+
+	D2D1_STROKE_STYLE_PROPERTIES strokeStylePropertiesDashed = D2D1::StrokeStyleProperties(
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_TRIANGLE,
+		D2D1_LINE_JOIN_MITER,
+		10.0f,
+		D2D1_DASH_STYLE_DASH,
+		0.0f
+	);
+	HRESULT errchck016 = m_pFactory->CreateStrokeStyle(strokeStylePropertiesDashed, NULL, 0, &m_pStrokeStyleDashed);
+	if (errchck016 != S_OK) {
+		ASSERT_ME2D(errchck016, "[ERRD2D1007] Failed to create Stroke Style Dashed!", "Error");
+		return false;
+	}
+
+	D2D1_STROKE_STYLE_PROPERTIES strokeStylePropertiesDashDotted = D2D1::StrokeStyleProperties(
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_TRIANGLE,
+		D2D1_LINE_JOIN_MITER,
+		10.0f,
+		D2D1_DASH_STYLE_DASH_DOT,
+		0.0f
+	);
+	HRESULT errchck017 = m_pFactory->CreateStrokeStyle(strokeStylePropertiesDashDotted, NULL, 0, &m_pStrokeStyleDashDotted);
+	if (errchck017 != S_OK) {
+		ASSERT_ME2D(errchck017, "[ERRD2D1008] Failed to create Stroke Style Dash-Dotted!", "Error");
+		return false;
+	}
+
+	D2D1_STROKE_STYLE_PROPERTIES strokeStylePropertiesDashDotDotted = D2D1::StrokeStyleProperties(
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_FLAT,
+		D2D1_CAP_STYLE_TRIANGLE,
+		D2D1_LINE_JOIN_MITER,
+		10.0f,
+		D2D1_DASH_STYLE_DASH_DOT_DOT,
+		0.0f
+	);
+	HRESULT errchck018 = m_pFactory->CreateStrokeStyle(strokeStylePropertiesDashDotDotted, NULL, 0, &m_pStrokeStyleDashDotDotted);
+	if (errchck018 != S_OK) {
+		ASSERT_ME2D(errchck018, "[ERRD2D1009] Failed to create Stroke Style Dash-Dot-Dotted!", "Error");
+		return false;
+	}
+
+
+	//DirectWrite
+	HRESULT errchck011 = m_pDWriteFactory->CreateTextFormat(
+		L"Script",                   // Font family name.
+		NULL,                        // Font collection (NULL sets it to use the system font collection)
+		DWRITE_FONT_WEIGHT_REGULAR,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		12.0f,
+		L"en-us",
+		&m_pTextFormat
+	);
+	if (errchck011 != S_OK) {
+		ASSERT_ME2D(errchck011, "[ERRDWRT002] DirectWrite Factory failed to create text format!", "Error");
+		return false;
+	}
+
+	HRESULT errchck012 = m_pTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+	if (errchck012 != S_OK) {
+		ASSERT_ME2D(errchck012, "[ERRDWRT003] Text Format failed to set alignment!", "Error");
+		return false;
+	}
+
+	HRESULT errchck013 = m_pTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+	if (errchck013 != S_OK) {
+		ASSERT_ME2D(errchck013, "[ERRDWRT004] Text Format failed to set paragraph alignment!", "Error");
+		return false;
+	}
+
+	HRESULT errchck014 = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &m_pTextBrush);
+	if (errchck014 != S_OK) {
+		ASSERT_ME2D(errchck014, "[ERRD2D1005] Failed to create Solid Color Brush!", "Error");
+		return false;
+	}
+
+
 	return true;
 }
 
@@ -82,248 +200,168 @@ void Graphics::ClearScreen(float r, float g, float b)
 }
 
 
+void Graphics::RenderText(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a)
+{
+	m_pTextBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	std::wostringstream printString;
+	printString << text;
+	printText = printString.str();
+
+	D2D1_RECT_F layoutRect = D2D1::RectF(offsetX, offsetY, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	m_pRenderTarget->DrawText(
+		printText.c_str(),
+		wcslen(printText.c_str()),
+		m_pTextFormat,
+		layoutRect,
+		m_pTextBrush
+	);
+}
+
+
 //-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
 
 void Graphics::RenderCircleRGBA(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ELLIPSE circle = D2D1::Ellipse(
-		D2D1::Point2F(x, y),
-		radius,
-		radius
-	);
-	m_pRenderTarget->DrawEllipse(circle, m_pMainBrush, strokesize);
+	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize);
 }
 
 void Graphics::RenderCircleRGBAF(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ELLIPSE circle = D2D1::Ellipse(
-		D2D1::Point2F(x, y),
-		radius,
-		radius
-	);
-	m_pRenderTarget->DrawEllipse(circle, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(circle, m_pFillBrush);
+	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
 }
 
 void Graphics::RenderCircleRGBASF(float x, float y, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
 
-	D2D1_ELLIPSE circle = D2D1::Ellipse(
-		D2D1::Point2F(x, y),
-		radius,
-		radius
-	);
-	m_pRenderTarget->DrawEllipse(circle, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(circle, m_pFillBrush);
+	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
 }
 
 
-void Graphics::RenderCircleRGBADotted(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {
-	D2D1_STROKE_STYLE_PROPERTIES strokeStyleProperties = D2D1::StrokeStyleProperties(
-		D2D1_CAP_STYLE_FLAT,
-		D2D1_CAP_STYLE_FLAT,
-		D2D1_CAP_STYLE_TRIANGLE,
-		D2D1_LINE_JOIN_MITER,
-		10.0f,
-		D2D1_DASH_STYLE_DOT,
-		0.0f
-	);
-	m_pFactory->CreateStrokeStyle(strokeStyleProperties, NULL, 0, &m_pStrokeStyle);
-	
+void Graphics::RenderCircleRGBADotted(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {	
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ELLIPSE circle = D2D1::Ellipse(
-		D2D1::Point2F(x, y),
-		radius,
-		radius
-	);
-	m_pRenderTarget->DrawEllipse(circle, m_pMainBrush, strokesize, m_pStrokeStyle);
+	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize, m_pStrokeStyleDotted);
 }
 
 
 void Graphics::RenderEllipseRGBA(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ELLIPSE ellipse = D2D1::Ellipse(
-		D2D1::Point2F(x, y),
-		xRadius,
-		yRadius
-	);
-	m_pRenderTarget->DrawEllipse(ellipse, m_pMainBrush, strokesize);
+	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pMainBrush, strokesize);
 }
 
 void Graphics::RenderEllipseRGBAF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ELLIPSE ellipse = D2D1::Ellipse(
-		D2D1::Point2F(x, y),
-		xRadius,
-		yRadius
-	);
-	m_pRenderTarget->DrawEllipse(ellipse, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(ellipse, m_pFillBrush);
+	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
 }
 
 void Graphics::RenderEllipseRGBASF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
 
-	D2D1_ELLIPSE ellipse = D2D1::Ellipse(
-		D2D1::Point2F(x, y),
-		xRadius,
-		yRadius
-	);
-	m_pRenderTarget->DrawEllipse(ellipse, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(ellipse, m_pFillBrush);
+	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
 }
 
 
 void Graphics::RenderSquareRGBA(float x, float y, float size, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_RECT_F square = D2D1::RectF(
-		x - (size / 2),
-		y - (size / 2),
-		x + (size / 2),
-		y + (size / 2)
-	);
-	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
+	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pMainBrush, strokesize);
 }
 
 void Graphics::RenderSquareRGBAF(float x, float y, float size, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_RECT_F square = D2D1::RectF(
-		x - (size / 2),
-		y - (size / 2),
-		x + (size / 2),
-		y + (size / 2)
-	);
-	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(square, m_pFillBrush);
+	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
 }
 
 void Graphics::RenderSquareRGBASF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
 
-	D2D1_RECT_F square = D2D1::RectF(
-		x - (size / 2),
-		y - (size / 2),
-		x + (size / 2),
-		y + (size / 2)
-	);
-	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(square, m_pFillBrush);
+	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
 }
 
 
 void Graphics::RenderRoundSquareRGBA(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ROUNDED_RECT rsquare = D2D1::RoundedRect(
-		D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius
-	);
-	m_pRenderTarget->DrawRoundedRectangle(rsquare, m_pMainBrush, strokesize);
+	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pMainBrush, strokesize);
 }
 
 void Graphics::RenderRoundSquareRGBAF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ROUNDED_RECT rsquare = D2D1::RoundedRect(
-		D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius
-	);
-	m_pRenderTarget->DrawRoundedRectangle(rsquare, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(rsquare, m_pFillBrush);
+	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
 }
 
 void Graphics::RenderRoundSquareRGBASF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
 
-	D2D1_ROUNDED_RECT rsquare = D2D1::RoundedRect(
-		D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius
-	);
-	m_pRenderTarget->DrawRoundedRectangle(rsquare, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(rsquare, m_pFillBrush);
+	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
 }
 
 
 void Graphics::RenderRectRGBA(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_RECT_F square = D2D1::RectF(
-		x - (width / 2),
-		y - (height / 2),
-		x + (width / 2),
-		y + (height / 2)
-	);
-	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
+	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pMainBrush, strokesize);
 }
 
 void Graphics::RenderRectRGBAF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_RECT_F square = D2D1::RectF(
-		x - (width / 2),
-		y - (height / 2),
-		x + (width / 2),
-		y + (height / 2)
-	);
-	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(square, m_pFillBrush);
+	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
 }
 
 void Graphics::RenderRectRGBASF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
 
-	D2D1_RECT_F square = D2D1::RectF(
-		x - (width / 2),
-		y - (height / 2),
-		x + (width / 2),
-		y + (height / 2)
-	);
-	m_pRenderTarget->DrawRectangle(square, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(square, m_pFillBrush);
+	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
 }
 
 
 void Graphics::RenderRoundRectRGBA(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ROUNDED_RECT rrect = D2D1::RoundedRect(
-		D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius
-	);
-	m_pRenderTarget->DrawRoundedRectangle(rrect, m_pMainBrush, strokesize);
+	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pMainBrush, strokesize);
 }
 
 void Graphics::RenderRoundRectRGBAF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	D2D1_ROUNDED_RECT rrect = D2D1::RoundedRect(
-		D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius
-	);
-	m_pRenderTarget->DrawRoundedRectangle(rrect, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(rrect, m_pFillBrush);
+	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
 }
 
 void Graphics::RenderRoundRectRGBASF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
 	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
 	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
 
-	D2D1_ROUNDED_RECT rrect = D2D1::RoundedRect(
-		D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius
-	);
-	m_pRenderTarget->DrawRoundedRectangle(rrect, m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(rrect, m_pFillBrush);
+	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pMainBrush, strokesize);
+	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
 }
