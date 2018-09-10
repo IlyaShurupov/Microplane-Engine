@@ -24,18 +24,32 @@
 #pragma once
 
 #include <Windows.h>
+#include <sstream>
 
 #include<d2d1.h>
 #pragma comment(lib, "d2d1.lib")
 
+#include<dwrite.h>
+#pragma comment(lib, "dwrite.lib")
+
 class Graphics
 {
+	//Direct2D
 	ID2D1Factory* m_pFactory;
 	ID2D1HwndRenderTarget* m_pRenderTarget;
 
-	ID2D1StrokeStyle* m_pStrokeStyle;
+	ID2D1StrokeStyle* m_pStrokeStyleDashDotDotted;
+	ID2D1StrokeStyle* m_pStrokeStyleDashDotted;
+	ID2D1StrokeStyle* m_pStrokeStyleDotted;
+	ID2D1StrokeStyle* m_pStrokeStyleDashed;
 	ID2D1SolidColorBrush* m_pMainBrush;
 	ID2D1SolidColorBrush* m_pFillBrush;
+
+	//DirectWrite
+	IDWriteFactory* m_pDWriteFactory;
+	IDWriteTextFormat* m_pTextFormat;
+	ID2D1SolidColorBrush* m_pTextBrush;
+	std::wstring printText;
 
 public:
 	Graphics();
@@ -57,6 +71,8 @@ public:
 	void EndDraw() { m_pRenderTarget->EndDraw(); }
 
 	void ClearScreen(float r, float g, float b);
+
+	void RenderText(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a);
 
 
 	//-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
