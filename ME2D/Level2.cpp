@@ -42,36 +42,58 @@ void Level2::Update(double timeTotal, double timeDelta)
 void Level2::Render()
 {
 	gfx->ClearScreen(0.0f, 0.0f, 0.5f);
-	
-	// Circles
-	gfx->RenderCircleRGBA(75.0f, 60.0f, 40.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderCircleRGBAF(200.0f, 60.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderCircleRGBASF(325.0f, 60.0f, 40.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	gfx->RenderCircleRGBADotted(450.0f, 60.0f, 40.0f, 1.0f, 1.0f, 0.0f, 1.0f, 3.0f);
+	//Circles
+	gfx->DrawCircle(ME2D_FILL_NONE, ME2D_OUTLINE_SOLID, 3.0f, 75.0f, 60.0f, 40.0f, 1.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawCircle(ME2D_FILL_NONE, ME2D_OUTLINE_DOTTED, 3.0f, 185.0f, 60.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawCircle(ME2D_FILL_NONE, ME2D_OUTLINE_DASHED, 3.0f, 295.0f, 60.0f, 40.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawCircle(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOTTED, 3.0f, 405.0f, 60.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawCircle(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOT_DOTTED, 3.0f, 515.0f, 60.0f, 40.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawCircle(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 3.0f, 625.0f, 60.0f, 40.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawCircle(ME2D_FILL_SECONDARY, ME2D_OUTLINE_SOLID, 3.0f, 735.0f, 60.0f, 40.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Ellipses
-	gfx->RenderEllipseRGBA(75.0f, 160.0f, 40.0f, 30.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderEllipseRGBAF(200.0f, 160.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderEllipseRGBASF(325.0f, 160.0f, 40.0f, 30.f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	//Ellipses
+	gfx->DrawEllipse(ME2D_FILL_NONE, ME2D_OUTLINE_SOLID, 3.0f, 75.0f, 160.0f, 40.0f, 30.0f, 1.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawEllipse(ME2D_FILL_NONE, ME2D_OUTLINE_DOTTED, 3.0f, 185.0f, 160.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawEllipse(ME2D_FILL_NONE, ME2D_OUTLINE_DASHED, 3.0f, 295.0f, 160.0f, 40.0f, 30.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawEllipse(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOTTED, 3.0f, 405.0f, 160.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawEllipse(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOT_DOTTED, 3.0f, 515.0f, 160.0f, 40.0f, 30.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawEllipse(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 3.0f, 625.0f, 160.0f, 40.0f, 30.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawEllipse(ME2D_FILL_SECONDARY, ME2D_OUTLINE_SOLID, 3.0f, 735.0f, 160.0f, 40.0f, 30.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Squares
-	gfx->RenderSquareRGBA(75.0f, 260.0f, 80.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderSquareRGBAF(200.0f, 260.0f, 80.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderSquareRGBASF(325.0f, 260.0f, 80.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	//Squares
+	gfx->DrawSquare(ME2D_FILL_NONE, ME2D_OUTLINE_SOLID, 3.0f, 75.0f, 260.0f, 80.0f, 1.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquare(ME2D_FILL_NONE, ME2D_OUTLINE_DOTTED, 3.0f, 185.0f, 260.0f, 80.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquare(ME2D_FILL_NONE, ME2D_OUTLINE_DASHED, 3.0f, 295.0f, 260.0f, 80.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquare(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOTTED, 3.0f, 405.0f, 260.0f, 80.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquare(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOT_DOTTED, 3.0f, 515.0f, 260.0f, 80.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquare(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 3.0f, 625.0f, 260.0f, 80.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquare(ME2D_FILL_SECONDARY, ME2D_OUTLINE_SOLID, 3.0f, 735.0f, 260.0f, 80.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Rounded Squares
-	gfx->RenderRoundSquareRGBA(75.0f, 365.0f, 80.0f, 10.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderRoundSquareRGBAF(200.0f, 365.0f, 80.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderRoundSquareRGBASF(325.0f, 365.0f, 80.0f, 10.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	//Rounded Squares
+	gfx->DrawSquareRounded(ME2D_FILL_NONE, ME2D_OUTLINE_SOLID, 3.0f, 75.0f, 365.0f, 80.0f, 10.0f, 1.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquareRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DOTTED, 3.0f, 185.0f, 365.0f, 80.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquareRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DASHED, 3.0f, 295.0f, 365.0f, 80.0f, 10.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquareRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOTTED, 3.0f, 405.0f, 365.0f, 80.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquareRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOT_DOTTED, 3.0f, 515.0f, 365.0f, 80.0f, 10.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquareRounded(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 3.0f, 625.0f, 365.0f, 80.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawSquareRounded(ME2D_FILL_SECONDARY, ME2D_OUTLINE_SOLID, 3.0f, 735.0f, 365.0f, 80.0f, 10.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Rectangles
-	gfx->RenderRectRGBA(75.0f, 460.0f, 90.0f, 60.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderRectRGBAF(200.0f, 460.0f, 90.0f, 60.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderRectRGBASF(325.0f, 460.0f, 90.0f, 60.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	//Rectangles
+	gfx->DrawRect(ME2D_FILL_NONE, ME2D_OUTLINE_SOLID, 3.0f, 75.0f, 460.0f, 90.0f, 60.0f, 1.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRect(ME2D_FILL_NONE, ME2D_OUTLINE_DOTTED, 3.0f, 185.0f, 460.0f, 90.0f, 60.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRect(ME2D_FILL_NONE, ME2D_OUTLINE_DASHED, 3.0f, 295.0f, 460.0f, 90.0f, 60.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRect(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOTTED, 3.0f, 405.0f, 460.0f, 90.0f, 60.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRect(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOT_DOTTED, 3.0f, 515.0f, 460.0f, 90.0f, 60.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRect(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 3.0f, 625.0f, 460.0f, 90.0f, 60.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRect(ME2D_FILL_SECONDARY, ME2D_OUTLINE_SOLID, 3.0f, 735.0f, 460.0f, 90.0f, 60.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Rounded Rectangles
-	gfx->RenderRoundRectRGBA(75.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderRoundRectRGBAF(200.0f, 550.0f, 90.0f, 60.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, 3.0f);
-	gfx->RenderRoundRectRGBASF(325.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 0.0f, 1.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	//Rounded Rectangles
+	gfx->DrawRectRounded(ME2D_FILL_NONE, ME2D_OUTLINE_SOLID, 3.0f, 75.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRectRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DOTTED, 3.0f, 185.0f, 550.0f, 90.0f, 60.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRectRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DASHED, 3.0f, 295.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRectRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOTTED, 3.0f, 405.0f, 550.0f, 90.0f, 60.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRectRounded(ME2D_FILL_NONE, ME2D_OUTLINE_DASH_DOT_DOTTED, 3.0f, 515.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 1.0f, 0.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRectRounded(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 3.0f, 625.0f, 550.0f, 90.0f, 60.0f, 10.0f, 0.0f, 1.0f, 1.0f, 1.0f, NULL, NULL, NULL, NULL);
+	gfx->DrawRectRounded(ME2D_FILL_SECONDARY, ME2D_OUTLINE_SOLID, 3.0f, 735.0f, 550.0f, 90.0f, 60.0f, 10.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 }
