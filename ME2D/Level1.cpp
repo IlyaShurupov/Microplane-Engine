@@ -36,7 +36,7 @@ void Level1::Load()
 	framestaranim = SPRITEFRAME_STARINIT;
 
 	yPlayerPosition = ySpeed = 0.0f;
-	xPlayerPosition = 0.0f;
+	xPlayerPosition = (SCREEN_WIDTH/2) - 32.0f;
 }
 
 void Level1::UnLoad()
@@ -58,13 +58,13 @@ void Level1::Update(double timeTotal, double timeDelta)
 	if (GetAsyncKeyState(VK_LEFT))
 	{
 		frame = SPRITEFRAME_PLAYER_LEFT;
-		xPlayerPosition -= 50.0f * timeDelta;
+		xPlayerPosition -= 80.0f * timeDelta;
 	}
 
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
 		frame = SPRITEFRAME_PLAYER_RIGHT;
-		xPlayerPosition += 50.0f * timeDelta;
+		xPlayerPosition += 80.0f * timeDelta;
 	}
 
 	if (GetAsyncKeyState(VK_SPACE))
