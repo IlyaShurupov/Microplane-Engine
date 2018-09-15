@@ -27,6 +27,10 @@
 #include "Logger.h"
 
 
+static const std::string s_debugMsg = std::string(MEDEF_ENG_ENGABBV) + " " + std::string(MEDEF_ENG_ENGVERD) + " (" + std::string(MEDEF_ENG_ENGVERS) + ") (Debug)";
+static std::wstring MEUTL_DBG_ENGDMSG(s_debugMsg.begin(), s_debugMsg.end());
+
+
 static void ASSERT_ME2D(HRESULT value, std::string description, std::string msgboxTitle) {
 	MessageBox(nullptr, description.c_str(), msgboxTitle.c_str(), MB_OK | MB_ICONERROR);
 	Log_Open("debug.log");
