@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Logger
 * Copyright (c) 2018 Ivan Kmeťo
 *
@@ -62,6 +62,13 @@ void Log_Init(std::string filename) {
 		filehandle << MEDEF_USR_APPNAME << " | " << MEDEF_USR_APPDEVN;
 		filehandle << " | " << MEDEF_USR_APPVERD;
 		filehandle << " | " << MEDEF_USR_APPVERS;
+
+		#ifdef _DEBUG
+			filehandle << " | Debug";
+		#else
+			filehandle << " | Release";
+		#endif
+
 		filehandle << "\n";
 		filehandle << MEDEF_ENG_ENGNAME << " (" << MEDEF_ENG_ENGABBV << ")";
 		filehandle << " | " << MEDEF_ENG_ENGVERD;
