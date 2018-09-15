@@ -32,6 +32,23 @@
 #include<dwrite.h>
 #pragma comment(lib, "dwrite.lib")
 
+
+typedef enum ME_TYPE2D_FILL {
+	ME2D_FILL_NONE = 0,
+	ME2D_FILL_PRIMARY = 1,
+	ME2D_FILL_SECONDARY = 2
+};
+
+typedef enum ME_TYPE2D_OUTLINE {
+	ME2D_OUTLINE_NONE = 0,
+	ME2D_OUTLINE_SOLID = 1,
+	ME2D_OUTLINE_DOTTED = 2,
+	ME2D_OUTLINE_DASHED = 3,
+	ME2D_OUTLINE_DASH_DOTTED = 4,
+	ME2D_OUTLINE_DASH_DOT_DOTTED = 5
+};
+
+
 class Graphics
 {
 	//Direct2D
@@ -42,7 +59,7 @@ class Graphics
 	ID2D1StrokeStyle* m_pStrokeStyleDashDotted;
 	ID2D1StrokeStyle* m_pStrokeStyleDotted;
 	ID2D1StrokeStyle* m_pStrokeStyleDashed;
-	ID2D1SolidColorBrush* m_pMainBrush;
+	ID2D1SolidColorBrush* m_pOutlineBrush;
 	ID2D1SolidColorBrush* m_pFillBrush;
 
 	//DirectWrite
@@ -77,29 +94,10 @@ public:
 
 	//-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
 
-	void RenderCircleRGBA(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
-	void RenderCircleRGBAF(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
-	void RenderCircleRGBASF(float x, float y, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
-
-	void RenderCircleRGBADotted(float x, float y, float radius, float r, float g, float b, float a, float strokesize);
-
-	void RenderEllipseRGBA(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
-	void RenderEllipseRGBAF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize);
-	void RenderEllipseRGBASF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
-
-	void RenderSquareRGBA(float x, float y, float size, float r, float g, float b, float a, float strokesize);
-	void RenderSquareRGBAF(float x, float y, float size, float r, float g, float b, float a, float strokesize);
-	void RenderSquareRGBASF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
-
-	void RenderRoundSquareRGBA(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize);
-	void RenderRoundSquareRGBAF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize);
-	void RenderRoundSquareRGBASF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
-
-	void RenderRectRGBA(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize);
-	void RenderRectRGBAF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize);
-	void RenderRectRGBASF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
-
-	void RenderRoundRectRGBA(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize);
-	void RenderRoundRectRGBAF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize);
-	void RenderRoundRectRGBASF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a);
+	void DrawCircle(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
+	void DrawEllipse(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
+	void DrawSquare(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float size, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
+	void DrawSquareRounded(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float size, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
+	void DrawRect(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float width, float height, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
+	void DrawRectRounded(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float width, float height, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
 };
