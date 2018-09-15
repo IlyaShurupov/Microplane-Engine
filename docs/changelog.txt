@@ -1,3 +1,11 @@
+[build 20180915] [1.1]
+- Added string for displaying basic information during SplashScreen about application in debug build (MEUtils.h, SplashScreen.cpp)
+- Logger now logs build configuration to debug.log (Logger.cpp)
+- Rework of syntax for rendering 2D geometrical objects (Graphics.cpp/.h, Level2.cpp, SplashScreen.cpp)
+- m_pMainBrush renamed to m_pOutlineBrush (Graphics.cpp/.h)
+- Player character position set to center of screen (Level1.cpp)
+- Player character movement speed slightly increased (Level1.cpp)
+
 [build 20180910] [1.1]
 - Implementation of DirectWrite (Graphics.cpp/.h, Level1.cpp, ErrorList.txt)
 - Stroke Style initializations moved to Graphics::Init (Graphics.cpp/.h, ErrorList.txt)
