@@ -26,6 +26,7 @@
 #include "Graphics.h"
 #include "SplashScreen.h"
 #include "LevelList.h"
+#include "MEUtils.h"
 
 
 void SplashScreen::Load()
@@ -58,5 +59,11 @@ void SplashScreen::Render()
 
 	s_resSplashScreen->Draw(0, (SCREEN_WIDTH / 2.0f) - 320.0f, (SCREEN_HEIGHT / 2.0f) - 240.0f);
 
-	gfx->RenderSquareRGBAF((SCREEN_WIDTH / 2.0f), (SCREEN_HEIGHT / 2.0f), (SCREEN_WIDTH * 1.0f), 0.0f, 0.0f, 0.0f, fadeoutalpha, 1.0f);
+	gfx->DrawSquare(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 1.0f, (SCREEN_WIDTH / 2.0f), (SCREEN_HEIGHT / 2.0f), (SCREEN_WIDTH * 1.0f), 0.0f, 0.0f, 0.0f, fadeoutalpha, NULL, NULL, NULL, NULL);
+
+
+#ifdef _DEBUG
+	gfx->RenderText(MEUTL_DBG_ENGDMSG, (SCREEN_WIDTH - 200), (SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
+#endif
+
 }
