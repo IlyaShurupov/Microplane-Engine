@@ -33,7 +33,7 @@ Graphics::Graphics()
 	m_pStrokeStyleDashed = NULL;
 	m_pStrokeStyleDashDotted = NULL;
 	m_pStrokeStyleDashDotDotted = NULL;
-	m_pMainBrush = NULL;
+	m_pOutlineBrush = NULL;
 	m_pFillBrush = NULL;
 	m_pDWriteFactory = NULL;
 	m_pTextFormat = NULL;
@@ -50,7 +50,7 @@ Graphics::~Graphics()
 	if (m_pStrokeStyleDashed) m_pStrokeStyleDashed->Release();
 	if (m_pStrokeStyleDotted) m_pStrokeStyleDotted->Release();
 	if (m_pFillBrush) m_pFillBrush->Release();
-	if (m_pMainBrush) m_pMainBrush->Release();
+	if (m_pOutlineBrush) m_pOutlineBrush->Release();
 	if (m_pRenderTarget) m_pRenderTarget->Release();
 	if (m_pFactory) m_pFactory->Release();
 }
@@ -80,7 +80,7 @@ bool Graphics::Init(HWND windowHandle)
 		return false;
 	}
 
-	HRESULT errchck003 = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &m_pMainBrush);
+	HRESULT errchck003 = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &m_pOutlineBrush);
 	if (errchck003 != S_OK) {
 		ASSERT_ME2D(errchck003, "[ERRD2D1003] Failed to create Solid Color Brush!", "Error");
 		return false;
@@ -222,146 +222,638 @@ void Graphics::RenderText(std::wstring text, int offsetX, int offsetY, float r, 
 
 //-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
 
-void Graphics::RenderCircleRGBA(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+void Graphics::DrawCircle(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pOutlineBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize);
+	switch (fillType) {
+	case ME2D_FILL_NONE:
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, 0.0f);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_PRIMARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_SECONDARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+			break;
+		}
+		break;
+	}
 }
 
-void Graphics::RenderCircleRGBAF(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+void Graphics::DrawEllipse(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pOutlineBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+	switch (fillType) {
+	case ME2D_FILL_NONE:
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, 0.0f);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_PRIMARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_SECONDARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
+			break;
+		}
+		break;
+	}
 }
 
-void Graphics::RenderCircleRGBASF(float x, float y, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+void Graphics::DrawSquare(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float size, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pOutlineBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pFillBrush);
+	switch (fillType) {
+	case ME2D_FILL_NONE:
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, 0.0f);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_PRIMARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_SECONDARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
+			break;
+		}
+		break;
+	}
 }
 
+void Graphics::DrawSquareRounded(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float size, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pOutlineBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-void Graphics::RenderCircleRGBADotted(float x, float y, float radius, float r, float g, float b, float a, float strokesize) {	
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	switch (fillType) {
+	case ME2D_FILL_NONE:
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, 0.0f);
+			break;
 
-	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), m_pMainBrush, strokesize, m_pStrokeStyleDotted);
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_PRIMARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_SECONDARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
+			break;
+		}
+		break;
+	}
 }
 
+void Graphics::DrawRect(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float width, float height, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pOutlineBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-void Graphics::RenderEllipseRGBA(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	switch (fillType) {
+	case ME2D_FILL_NONE:
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, 0.0f);
+			break;
 
-	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pMainBrush, strokesize);
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_PRIMARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+		}
+		break;
+
+	case ME2D_FILL_SECONDARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
+			break;
+		}
+		break;
+	}
 }
 
-void Graphics::RenderEllipseRGBAF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+void Graphics::DrawRectRounded(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float width, float height, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a) {
+	m_pOutlineBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
-}
+	switch (fillType) {
+	case ME2D_FILL_NONE:
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, 0.0f);
+			break;
 
-void Graphics::RenderEllipseRGBASF(float x, float y, float xRadius, float yRadius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize);
+			break;
 
-	m_pRenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), xRadius, yRadius), m_pFillBrush);
-}
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			break;
 
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			break;
 
-void Graphics::RenderSquareRGBA(float x, float y, float size, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			break;
 
-	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pMainBrush, strokesize);
-}
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			break;
+		}
+		break;
 
-void Graphics::RenderSquareRGBAF(float x, float y, float size, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	case ME2D_FILL_PRIMARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
-	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
-}
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-void Graphics::RenderSquareRGBASF(float x, float y, float size, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), m_pFillBrush);
-}
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-void Graphics::RenderRoundSquareRGBA(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pMainBrush, strokesize);
-}
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
+		}
+		break;
 
-void Graphics::RenderRoundSquareRGBAF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
+	case ME2D_FILL_SECONDARY:
+		m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
 
-	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
-}
+		switch (outlineType) {
+		case ME2D_OUTLINE_NONE:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, 0.0f);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-void Graphics::RenderRoundSquareRGBASF(float x, float y, float size, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
+		case ME2D_OUTLINE_SOLID:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (size / 2), y - (size / 2), x + (size / 2), y + (size / 2)), radius, radius), m_pFillBrush);
-}
+		case ME2D_OUTLINE_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
+		case ME2D_OUTLINE_DASHED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-void Graphics::RenderRectRGBA(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
+		case ME2D_OUTLINE_DASH_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
 
-	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pMainBrush, strokesize);
-}
-
-void Graphics::RenderRectRGBAF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
-
-	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
-}
-
-void Graphics::RenderRectRGBASF(float x, float y, float width, float height, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
-
-	m_pRenderTarget->DrawRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRectangle(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), m_pFillBrush);
-}
-
-
-void Graphics::RenderRoundRectRGBA(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-
-	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pMainBrush, strokesize);
-}
-
-void Graphics::RenderRoundRectRGBAF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(r, g, b, a));
-
-	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
-}
-
-void Graphics::RenderRoundRectRGBASF(float x, float y, float width, float height, float radius, float r, float g, float b, float a, float strokesize, float fill_r, float fill_g, float fill_b, float fill_a) {
-	m_pMainBrush->SetColor(D2D1::ColorF(r, g, b, a));
-	m_pFillBrush->SetColor(D2D1::ColorF(fill_r, fill_g, fill_b, fill_a));
-
-	m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pMainBrush, strokesize);
-	m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+		case ME2D_OUTLINE_DASH_DOT_DOTTED:
+			m_pRenderTarget->DrawRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
+			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
+			break;
+		}
+		break;
+	}
 }
