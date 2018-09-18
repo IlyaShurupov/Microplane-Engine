@@ -1,3 +1,9 @@
+[build 20180918] [1.1]
+- Implementation of Main Menu (MainMenu.cpp/.h, LevelList.h, SplashScreen.cpp) [!TEST]
+- Added new, separate text format "m_pTextFormatMenu" for Main Menu (Graphics.cpp/.h, ErrorList.txt)
+- New function RenderTextMenu added (Graphics.cpp/.h)
+- Implementation of DrawLine (Graphics.cpp/.h)
+
 [build 20180915] [1.1]
 - Added string for displaying basic information during SplashScreen about application in debug build (MEUtils.h, SplashScreen.cpp)
 - Logger now logs build configuration to debug.log (Logger.cpp)
