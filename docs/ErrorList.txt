@@ -20,3 +20,6 @@
 [ERRDWRT002] DirectWrite Factory failed to create text format! (errchck011)
 [ERRDWRT003] Text Format failed to set alignment! (errchck012)
 [ERRDWRT004] Text Format failed to set paragraph alignment! (errchck013)
+[ERRDWRT005] DirectWrite Factory failed to create text format! (errchck019)
+[ERRDWRT006] Text Format failed to set alignment! (errchck020)
+[ERRDWRT007] Text Format failed to set paragraph alignment! (errchck021)
