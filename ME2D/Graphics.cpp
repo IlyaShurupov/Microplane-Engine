@@ -37,12 +37,14 @@ Graphics::Graphics()
 	m_pFillBrush = NULL;
 	m_pDWriteFactory = NULL;
 	m_pTextFormat = NULL;
+	m_pTextFormatMenu = NULL;
 	m_pTextBrush = NULL;
 }
 
 Graphics::~Graphics()
 {
 	if (m_pTextBrush) m_pTextBrush->Release();
+	if (m_pTextFormatMenu) m_pTextFormatMenu->Release();
 	if (m_pTextFormat) m_pTextFormat->Release();
 	if (m_pDWriteFactory) m_pDWriteFactory->Release();
 	if (m_pStrokeStyleDashDotDotted) m_pStrokeStyleDashDotDotted->Release();
@@ -190,6 +192,35 @@ bool Graphics::Init(HWND windowHandle)
 	}
 
 
+	//TextFormatMenu
+	HRESULT errchck019 = m_pDWriteFactory->CreateTextFormat(
+		L"Script",                   // Font family name.
+		NULL,                        // Font collection (NULL sets it to use the system font collection)
+		DWRITE_FONT_WEIGHT_REGULAR,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		20.0f,
+		L"en-us",
+		&m_pTextFormatMenu
+	);
+	if (errchck019 != S_OK) {
+		ASSERT_ME2D(errchck019, "[ERRDWRT005] DirectWrite Factory failed to create text format!", "Error");
+		return false;
+	}
+
+	HRESULT errchck020 = m_pTextFormatMenu->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+	if (errchck020 != S_OK) {
+		ASSERT_ME2D(errchck020, "[ERRDWRT006] Text Format failed to set alignment!", "Error");
+		return false;
+	}
+
+	HRESULT errchck021 = m_pTextFormatMenu->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+	if (errchck021 != S_OK) {
+		ASSERT_ME2D(errchck021, "[ERRDWRT007] Text Format failed to set paragraph alignment!", "Error");
+		return false;
+	}
+
+
 	return true;
 }
 
@@ -214,6 +245,25 @@ void Graphics::RenderText(std::wstring text, int offsetX, int offsetY, float r, 
 		printText.c_str(),
 		wcslen(printText.c_str()),
 		m_pTextFormat,
+		layoutRect,
+		m_pTextBrush
+	);
+}
+
+void Graphics::RenderTextMenu(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a)
+{
+	m_pTextBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	std::wostringstream printString;
+	printString << text;
+	printText = printString.str();
+
+	D2D1_RECT_F layoutRect = D2D1::RectF(offsetX, offsetY, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	m_pRenderTarget->DrawText(
+		printText.c_str(),
+		wcslen(printText.c_str()),
+		m_pTextFormatMenu,
 		layoutRect,
 		m_pTextBrush
 	);
@@ -854,6 +904,35 @@ void Graphics::DrawRectRounded(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlin
 			m_pRenderTarget->FillRoundedRectangle(D2D1::RoundedRect(D2D1::RectF(x - (width / 2), y - (height / 2), x + (width / 2), y + (height / 2)), radius, radius), m_pFillBrush);
 			break;
 		}
+		break;
+	}
+}
+
+void Graphics::DrawLine(ME_TYPE2D_OUTLINE outlineType, float outlineSize, float point0X, float point0Y, float point1X, float point1Y, float r, float g, float b, float a) {
+	m_pOutlineBrush->SetColor(D2D1::ColorF(r, g, b, a));
+
+	switch (outlineType) {
+	case ME2D_OUTLINE_NONE:
+		m_pRenderTarget->DrawLine(D2D1::Point2F(point0X, point0Y), D2D1::Point2F(point1X, point1Y), m_pOutlineBrush, 0.0f);
+		break;
+	case ME2D_OUTLINE_SOLID:
+		m_pRenderTarget->DrawLine(D2D1::Point2F(point0X, point0Y), D2D1::Point2F(point1X, point1Y), m_pOutlineBrush, outlineSize);
+		break;
+
+	case ME2D_OUTLINE_DOTTED:
+		m_pRenderTarget->DrawLine(D2D1::Point2F(point0X, point0Y), D2D1::Point2F(point1X, point1Y), m_pOutlineBrush, outlineSize, m_pStrokeStyleDotted);
+		break;
+
+	case ME2D_OUTLINE_DASHED:
+		m_pRenderTarget->DrawLine(D2D1::Point2F(point0X, point0Y), D2D1::Point2F(point1X, point1Y), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashed);
+		break;
+
+	case ME2D_OUTLINE_DASH_DOTTED:
+		m_pRenderTarget->DrawLine(D2D1::Point2F(point0X, point0Y), D2D1::Point2F(point1X, point1Y), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotted);
+		break;
+
+	case ME2D_OUTLINE_DASH_DOT_DOTTED:
+		m_pRenderTarget->DrawLine(D2D1::Point2F(point0X, point0Y), D2D1::Point2F(point1X, point1Y), m_pOutlineBrush, outlineSize, m_pStrokeStyleDashDotDotted);
 		break;
 	}
 }
