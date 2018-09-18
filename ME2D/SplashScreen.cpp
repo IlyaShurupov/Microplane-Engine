@@ -45,7 +45,7 @@ void SplashScreen::Update(double timeTotal, double timeDelta)
 	if (fadeoutalpha <= 1.0f && fadeoutalpha > 0.0f) {
 		if (fadeoutalpha <= 0.01f) {
 			Sleep(2000);
-			GameController::SwitchLevel(new Level1());
+			GameController::SwitchLevel(new MainMenu());
 		}
 		else {
 			fadeoutalpha -= 0.008f;
