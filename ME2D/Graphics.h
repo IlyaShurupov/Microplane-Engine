@@ -65,6 +65,7 @@ class Graphics
 	//DirectWrite
 	IDWriteFactory* m_pDWriteFactory;
 	IDWriteTextFormat* m_pTextFormat;
+	IDWriteTextFormat* m_pTextFormatMenu;
 	ID2D1SolidColorBrush* m_pTextBrush;
 	std::wstring printText;
 
@@ -90,6 +91,7 @@ public:
 	void ClearScreen(float r, float g, float b);
 
 	void RenderText(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a);
+	void RenderTextMenu(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a);
 
 
 	//-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
@@ -100,4 +102,5 @@ public:
 	void DrawSquareRounded(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float size, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
 	void DrawRect(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float width, float height, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
 	void DrawRectRounded(ME_TYPE2D_FILL fillType, ME_TYPE2D_OUTLINE outlineType, float outlineSize, float x, float y, float width, float height, float radius, float r, float g, float b, float a, float fill_r, float fill_g, float fill_b, float fill_a);
+	void DrawLine(ME_TYPE2D_OUTLINE outlineType, float outlineSize, float point0X, float point0Y, float point1X, float point1Y, float r, float g, float b, float a);
 };
