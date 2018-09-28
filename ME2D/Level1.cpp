@@ -52,7 +52,7 @@ void Level1::Update(double timeTotal, double timeDelta)
 	yPlayerPosition += ySpeed;
 	if (yPlayerPosition > SCREEN_HEIGHT)
 	{
-		yPlayerPosition = SCREEN_HEIGHT;
+		yPlayerPosition = (float)SCREEN_HEIGHT;
 	}
 
 	if (GetAsyncKeyState(VK_LEFT))
@@ -100,7 +100,7 @@ void Level1::Render()
 	s_starAnim->Draw((framestaranim / 10) % 5, 125.0f, 75.0f);                              // Render First Star
 	s_starAnim->Draw((framestaranim / 10) % 5, (SCREEN_WIDTH - 300.0f), 150.0f);            // Render Second Star
 
-	s_sprites->Draw(frame % 4, xPlayerPosition, yPlayerPosition);                           // Render Player
+	s_sprites->Draw(frame % 4, (float)xPlayerPosition, (float)yPlayerPosition);             // Render Player
 
 	for (int i = 0; i < ((SCREEN_WIDTH / 64) + 2); i++)                                     // Render Bottom Ground
 	{
