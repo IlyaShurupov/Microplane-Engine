@@ -34,6 +34,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WM_DESTROY) { PostQuitMessage(0); return 0; }
 
+	getMousePosX = GET_X_LPARAM(lParam);
+	getMousePosY = GET_Y_LPARAM(lParam);
+
 	return DefWindowProcA(hwnd, uMsg, wParam, lParam);
 }
 
@@ -54,7 +57,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 	RegisterClassEx(&windowclass);
 
-	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	RECT rect = { 0, 0, (LONG)SCREEN_WIDTH, (LONG)SCREEN_HEIGHT };
 	AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, false, WS_EX_OVERLAPPEDWINDOW);
 
 	HWND windowhandle = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MainWindow", MEDEF_RES_WINTITL, WS_OVERLAPPEDWINDOW, 100, 100, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, hInstance, 0);
@@ -88,6 +91,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 			DispatchMessage(&message);
 		else
 		{
+			graphics->mousePosX = getMousePosX;
+			graphics->mousePosY = getMousePosY;
+
 			GameController::Update();
 			graphics->BeginDraw();
 
