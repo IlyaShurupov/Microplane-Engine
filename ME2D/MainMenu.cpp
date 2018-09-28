@@ -70,6 +70,29 @@ void MainMenu::Update(double timeTotal, double timeDelta)
 			GameController::SwitchLevel(new Level2());
 		}
 	}
+
+	//Mouse
+	if (gfx->mousePosX > 5 &&gfx->mousePosX < 205)
+	{
+		if (gfx->mousePosY > 15 && gfx->mousePosY < 55)
+		{
+			menuLID = 1;
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+				GameController::SwitchLevel(new Level1());
+			}
+		}
+	}
+
+	if (gfx->mousePosX > 5 && gfx->mousePosX < 205)
+	{
+		if (gfx->mousePosY > 75 && gfx->mousePosY < 115)
+		{
+			menuLID = 2;
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+				GameController::SwitchLevel(new Level2());
+			}
+		}
+	}
 }
 
 void MainMenu::Render()
@@ -97,7 +120,7 @@ void MainMenu::Render()
 
 
 #ifdef _DEBUG
-	gfx->RenderText(MEUTL_DBG_ENGDMSG, (SCREEN_WIDTH - 200), (SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
+	gfx->RenderText(MEUTL_DBG_ENGDMSG, (float)(SCREEN_WIDTH - 200), (float)(SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
 #endif
 
 }
