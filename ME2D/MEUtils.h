@@ -27,6 +27,10 @@
 #include "Logger.h"
 
 
+static uint16_t getMousePosX; //Capture Mouse Position X from lParam in LRESULT CALLBACK WindowProc [main.cpp]
+static uint16_t getMousePosY; //Capture Mouse Position Y from lParam in LRESULT CALLBACK WindowProc [main.cpp]
+
+
 static const std::string s_debugMsg = std::string(MEDEF_ENG_ENGABBV) + " " + std::string(MEDEF_ENG_ENGVERD) + " (" + std::string(MEDEF_ENG_ENGVERS) + ") (Debug)";
 static std::wstring MEUTL_DBG_ENGDMSG(s_debugMsg.begin(), s_debugMsg.end());
 
