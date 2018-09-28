@@ -31,8 +31,8 @@ class Level1 : public GameLevel
 {
 	float ySpeed;
 
-	float xPlayerPosition;
-	float yPlayerPosition;
+	double xPlayerPosition;
+	double yPlayerPosition;
 
 	SpriteSheet* s_sprites;
 	SpriteSheet* s_starAnim;
