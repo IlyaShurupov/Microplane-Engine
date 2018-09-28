@@ -231,7 +231,7 @@ void Graphics::ClearScreen(float r, float g, float b)
 }
 
 
-void Graphics::RenderText(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a)
+void Graphics::RenderText(std::wstring text, float offsetX, float offsetY, float r, float g, float b, float a)
 {
 	m_pTextBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
@@ -239,7 +239,7 @@ void Graphics::RenderText(std::wstring text, int offsetX, int offsetY, float r, 
 	printString << text;
 	printText = printString.str();
 
-	D2D1_RECT_F layoutRect = D2D1::RectF(offsetX, offsetY, SCREEN_WIDTH, SCREEN_HEIGHT);
+	D2D1_RECT_F layoutRect = D2D1::RectF(offsetX, offsetY, (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
 	m_pRenderTarget->DrawText(
 		printText.c_str(),
@@ -250,7 +250,7 @@ void Graphics::RenderText(std::wstring text, int offsetX, int offsetY, float r, 
 	);
 }
 
-void Graphics::RenderTextMenu(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a)
+void Graphics::RenderTextMenu(std::wstring text, float offsetX, float offsetY, float r, float g, float b, float a)
 {
 	m_pTextBrush->SetColor(D2D1::ColorF(r, g, b, a));
 
@@ -258,7 +258,7 @@ void Graphics::RenderTextMenu(std::wstring text, int offsetX, int offsetY, float
 	printString << text;
 	printText = printString.str();
 
-	D2D1_RECT_F layoutRect = D2D1::RectF(offsetX, offsetY, SCREEN_WIDTH, SCREEN_HEIGHT);
+	D2D1_RECT_F layoutRect = D2D1::RectF(offsetX, offsetY, (float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
 	m_pRenderTarget->DrawText(
 		printText.c_str(),
