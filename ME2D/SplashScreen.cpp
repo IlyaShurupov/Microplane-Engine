@@ -63,7 +63,7 @@ void SplashScreen::Render()
 
 
 #ifdef _DEBUG
-	gfx->RenderText(MEUTL_DBG_ENGDMSG, (SCREEN_WIDTH - 200), (SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
+	gfx->RenderText(MEUTL_DBG_ENGDMSG, (SCREEN_WIDTH - 200.0f), (SCREEN_HEIGHT - 25.0f), 1.0f, 1.0f, 1.0f, 1.0f);
 #endif
 
 }
