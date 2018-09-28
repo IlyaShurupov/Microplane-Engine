@@ -33,20 +33,20 @@
 #pragma comment(lib, "dwrite.lib")
 
 
-typedef enum ME_TYPE2D_FILL {
+typedef enum ME_TYPE2D_FILL : uint8_t {
 	ME2D_FILL_NONE = 0,
 	ME2D_FILL_PRIMARY = 1,
 	ME2D_FILL_SECONDARY = 2
-};
+} ME_TYPE2D_FILL;
 
-typedef enum ME_TYPE2D_OUTLINE {
+typedef enum ME_TYPE2D_OUTLINE : uint8_t {
 	ME2D_OUTLINE_NONE = 0,
 	ME2D_OUTLINE_SOLID = 1,
 	ME2D_OUTLINE_DOTTED = 2,
 	ME2D_OUTLINE_DASHED = 3,
 	ME2D_OUTLINE_DASH_DOTTED = 4,
 	ME2D_OUTLINE_DASH_DOT_DOTTED = 5
-};
+} ME_TYPE2D_OUTLINE;
 
 
 class Graphics
@@ -90,9 +90,13 @@ public:
 
 	void ClearScreen(float r, float g, float b);
 
-	void RenderText(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a);
-	void RenderTextMenu(std::wstring text, int offsetX, int offsetY, float r, float g, float b, float a);
+	void RenderText(std::wstring text, float offsetX, float offsetY, float r, float g, float b, float a);
+	void RenderTextMenu(std::wstring text, float offsetX, float offsetY, float r, float g, float b, float a);
 
+
+	//--------------------------------------[PASS MOUSE POSITON RELATIVE TO WINDOW]---------------------------------------
+	uint16_t mousePosX;
+	uint16_t mousePosY;
 
 	//-----------------------------------------------[OBJECTS: 2D GEOMETRY]-----------------------------------------------
 
