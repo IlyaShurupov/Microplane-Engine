@@ -1,3 +1,8 @@
+[build 20181003] [1.1]
+- Rework of Level 2, Implementation of simple UI (Level2.cpp/.h, ui_shapes.png)
+- Tiny rework of how Main Menu cooperates with keyboard input (MainMenu.cpp)
+- ySpeed float->double (Level1.h)
+
 [build 20180928] [1.1]
 - Fixed numerous warnings regarding types conversions (Graphics.cpp/.h, MainMenu.cpp, Level1.cpp/.h, main.cpp, SplashScreen.cpp)
 - Implementation of capturing XY Mouse Position (MEUtils.h, stdafx.h, main.cpp, Graphics.h, MainMenu.cpp)
