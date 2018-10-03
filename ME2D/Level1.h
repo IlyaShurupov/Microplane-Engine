@@ -29,7 +29,7 @@
 
 class Level1 : public GameLevel
 {
-	float ySpeed;
+	double ySpeed;
 
 	double xPlayerPosition;
 	double yPlayerPosition;
@@ -40,14 +40,14 @@ class Level1 : public GameLevel
 	int frame;
 	int framestaranim;
 
-#define SPRITEFRAME_PLAYER_LEFT 0
-#define SPRITEFRAME_PLAYER_LEFTFLY 1
-#define SPRITEFRAME_PLAYER_RIGHT 2
-#define SPRITEFRAME_PLAYER_RIGHTFLY 3
-#define SPRITEFRAME_PLANET 4
-#define SPRITEFRAME_EMPTY 5
-#define SPRITEFRAME_GROUND 6
-#define SPRITEFRAME_STARINIT 0
+	#define SPRITEFRAME_PLAYER_LEFT 0
+	#define SPRITEFRAME_PLAYER_LEFTFLY 1
+	#define SPRITEFRAME_PLAYER_RIGHT 2
+	#define SPRITEFRAME_PLAYER_RIGHTFLY 3
+	#define SPRITEFRAME_PLANET 4
+	#define SPRITEFRAME_EMPTY 5
+	#define SPRITEFRAME_GROUND 6
+	#define SPRITEFRAME_STARINIT 0
 
 public:
 	void Load() override;
