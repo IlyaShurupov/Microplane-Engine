@@ -40,23 +40,21 @@ void MainMenu::UnLoad()
 
 void MainMenu::Update(double timeTotal, double timeDelta)
 {
-	if (GetAsyncKeyState(VK_DOWN)) {
+	if (GetAsyncKeyState(VK_DOWN) & 0x0001) {
 		if (menuLID == MENULIST_MAX) {
 			menuLID = MENULIST_MAX;
 		}
 		else {
 			menuLID += 1;
-			Sleep(2000 * timeDelta);
 		}
 	}
 
-	if (GetAsyncKeyState(VK_UP)) {
+	if (GetAsyncKeyState(VK_UP) & 0x0001) {
 		if (menuLID == MENULIST_MIN) {
 			menuLID = MENULIST_MIN;
 		}
 		else {
 			menuLID -= 1;
-			Sleep(2000 * timeDelta);
 		}
 	}
 
