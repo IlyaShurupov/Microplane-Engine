@@ -1,7 +1,7 @@
 //============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
