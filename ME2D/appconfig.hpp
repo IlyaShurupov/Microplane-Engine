@@ -25,22 +25,22 @@
 
 #pragma once
 
-#define MEDEF_USR_APPNAME "Application Name"            // Application Name
-#define MEDEF_USR_APPVERD "0.0"                         // Application Version
-#define MEDEF_USR_APPVERS "0"                           // Application Build/Secondary Version (if needed)
-#define MEDEF_USR_APPDEVN "X"                           // Application Developer Name
+#define MEDEF_USR_APPNAME "Application Name"            //Application Name
+#define MEDEF_USR_APPVERD "0.0"                         //Application Version
+#define MEDEF_USR_APPVERS "0"                           //Application Build/Secondary Version (if needed)
+#define MEDEF_USR_APPDEVN "X"                           //Application Developer Name
 
-#define MEDEF_RES_WINTITL "ME2D"                        // Window Title
-#define MEDEF_RES_WINICON "icon.ico"                    // Window Icon File Path
+#define MEDEF_RES_WINTITL "ME2D"                        //Window Title
+#define MEDEF_RES_WINICON "icon.ico"                    //Window Icon File Path
 
-//[resources.rc] defines
-#define MEDEF_RES_COMMENT "\0"                          // Comment
-#define MEDEF_RES_DEVNAME "\0"                          // Company/Developer Name
-#define MEDEF_RES_DESCRPT "Description\0"               // File Description
-#define MEDEF_RES_FILEVRA "0.0.0.0\0"                   // File Version
-#define MEDEF_RES_FILEVRB 0, 0, 0, 0                    // File Version
-#define MEDEF_RES_PRODVRA "0.0.0.0\0"                   // Product Version
-#define MEDEF_RES_PRODVRB 0, 0, 0, 0                    // Product Version
-#define MEDEF_RES_COPYRGT "Copyright (c) YEAR\0"        // Copyright Notice
-#define MEDEF_RES_INTENME "\0"                          // Internal Name
-#define MEDEF_RES_ORGFNME "\0"                          // Original Filename
+//[resources.rc] macros
+#define MEDEF_RES_COMMENT "\0"                          //Comment
+#define MEDEF_RES_DEVNAME "\0"                          //Company/Developer Name
+#define MEDEF_RES_DESCRPT "Description\0"               //File Description
+#define MEDEF_RES_FILEVRA "0.0.0.0\0"                   //File Version
+#define MEDEF_RES_FILEVRB 0, 0, 0, 0                    //File Version
+#define MEDEF_RES_PRODVRA "0.0.0.0\0"                   //Product Version
+#define MEDEF_RES_PRODVRB 0, 0, 0, 0                    //Product Version
+#define MEDEF_RES_COPYRGT "Copyright (c) YEAR\0"        //Copyright Notice
+#define MEDEF_RES_INTENME "\0"                          //Internal Name
+#define MEDEF_RES_ORGFNME "\0"                          //Original Filename
