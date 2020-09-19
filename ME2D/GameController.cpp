@@ -1,7 +1,9 @@
 //============================================================================
 // Microplane Engine - ME2D
+//
+// Game Controller
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -21,13 +23,14 @@
 //
 //============================================================================
 
-#include "stdafx.h"
+#include "stdafx.hpp"
 #include "GameController.h"
 
 GameLevel* GameController::currentLevel;
 bool GameController::Loading;
 
 HPTimer* GameController::hpTimer;
+
 
 void GameController::Init()
 {
@@ -67,8 +70,7 @@ void GameController::Update()
 {
 	if (Loading) return;
 
-	hpTimer->Update();            // Updating HP Timer before Level Update
-
+	hpTimer->Update();
 	currentLevel->Update(hpTimer->GetTimeTotal(), hpTimer->GetTimeDelta());
 }
 
