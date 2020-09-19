@@ -1,7 +1,9 @@
 //============================================================================
 // Microplane Engine - ME2D
+//
+// List of Levels/Scenes (Demo)
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -23,7 +25,7 @@
 
 #pragma once
 
-#include "SplashScreen.h"   // LEVEL SPLASHSCREEN - Splash Screen
-#include "MainMenu.h"       // LEVEL MAINMENU - Main Menu
-#include "Level1.h"         // LEVEL 1 - DEMO SCENE
-#include "Level2.h"         // LEVEL 2 - D2D OBJECTS DEMO SCENE
+#include "SplashScreen.h"  // LEVEL SPLASHSCREEN - Splash Screen
+#include "MainMenu.h"      // LEVEL MAINMENU - Main Menu
+#include "Level1.h"        // LEVEL 1 - DEMO SCENE
+#include "Level2.h"        // LEVEL 2 - D2D OBJECTS DEMO SCENE
