@@ -1,7 +1,9 @@
 //============================================================================
 // Microplane Engine - ME2D
+//
+// Scene: ME2D Main Menu
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -21,11 +23,11 @@
 //
 //============================================================================
 
-#include "stdafx.h"
+#include "stdafx.hpp"
 #include "GameController.h"
 #include "Graphics.h"
 #include "MainMenu.h"
-#include "LevelList.h"
+#include "LevelList.hpp"
 #include "MEUtils.h"
 
 
