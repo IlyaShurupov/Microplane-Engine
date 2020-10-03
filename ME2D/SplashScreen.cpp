@@ -1,7 +1,9 @@
 //============================================================================
 // Microplane Engine - ME2D
+//
+// Scene: ME2D Splash Screen
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -21,11 +23,11 @@
 //
 //============================================================================
 
-#include "stdafx.h"
+#include "stdafx.hpp"
 #include "GameController.h"
 #include "Graphics.h"
 #include "SplashScreen.h"
-#include "LevelList.h"
+#include "LevelList.hpp"
 #include "MEUtils.h"
 
 
@@ -62,8 +64,8 @@ void SplashScreen::Render()
 	gfx->DrawSquare(ME2D_FILL_PRIMARY, ME2D_OUTLINE_SOLID, 1.0f, (SCREEN_WIDTH / 2.0f), (SCREEN_HEIGHT / 2.0f), (SCREEN_WIDTH * 1.0f), 0.0f, 0.0f, 0.0f, fadeoutalpha, NULL, NULL, NULL, NULL);
 
 
-#ifdef _DEBUG
-	gfx->RenderText(MEUTL_DBG_ENGDMSG, (SCREEN_WIDTH - 200.0f), (SCREEN_HEIGHT - 25.0f), 1.0f, 1.0f, 1.0f, 1.0f);
-#endif
+#	ifdef _DEBUG
+		gfx->RenderText(MEUTL_DBG_ENGDMSG, (SCREEN_WIDTH - 200.0f), (SCREEN_HEIGHT - 25.0f), 1.0f, 1.0f, 1.0f, 1.0f);
+#	endif
 
 }
