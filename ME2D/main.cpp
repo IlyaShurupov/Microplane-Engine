@@ -1,7 +1,7 @@
 //============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -21,11 +21,12 @@
 //
 //============================================================================
 
+#include "appconfig.hpp"
+#include "MEUtils.h"
+
 #include "Graphics.h"
 #include "GameController.h"
-#include "LevelList.h"
-#include "uConfig.h"
-#include "MEUtils.h"
+#include "LevelList.hpp"
 
 Graphics* graphics;
 
@@ -42,7 +43,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int nCmdShow)
 {
-	Log_Init("debug.log");
+	logutil::file_clear("debug.log");
+	logutil::write_to_file(s_logEngineInfo, "debug.log");
 
 	WNDCLASSEX windowclass;
 	ZeroMemory(&windowclass, sizeof(WNDCLASSEX));
@@ -66,12 +68,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 	//GRAPHICS INITIALIZATION
 	graphics = new Graphics();
 
-	if (!graphics->Init(windowhandle))
-	{
+	if (!graphics->Init(windowhandle)) {
 		delete graphics;
 		return -1;
 	}
-	//GRAPHICS INITIALIZATION
+
 
 	GameLevel::Init(graphics);
 
@@ -105,9 +106,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int
 
 	GameController::UnLoad();
 
-	delete graphics;
+	if(graphics) delete graphics;
 
-	Log_End("debug.log");
 
 	return 0;
 }
