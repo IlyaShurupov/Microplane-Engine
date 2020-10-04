@@ -1,6 +1,12 @@
+[build 20201004] [1.1]
+- *.h -> *.hpp (LevelList.hpp, stdafx.hpp)
+- uConfig.h -> appconfig.hpp
+- GlobalSettings -> DisplaySettings (settings.ini, stdafx.h)
+- Replaced Logger with logutil
+
 [build 20181003] [1.1]
-- Rework of Level 2, Implementation of simple UI (Level2.cpp/.h, ui_shapes.png)
-- Tiny rework of how Main Menu cooperates with keyboard input (MainMenu.cpp)
+- Rework of Level 2, implementation of simple UI (Level2.cpp/.h, ui_shapes.png)
+- Tiny rework of how Main Menu works with keyboard input (MainMenu.cpp)
 - ySpeed float->double (Level1.h)
 
 [build 20180928] [1.1]
@@ -8,7 +14,7 @@
 - Implementation of capturing XY Mouse Position (MEUtils.h, stdafx.h, main.cpp, Graphics.h, MainMenu.cpp)
 
 [build 20180918] [1.1]
-- Implementation of Main Menu (MainMenu.cpp/.h, LevelList.h, SplashScreen.cpp) [!TEST]
+- Implementation of Main Menu (MainMenu.cpp/.h, LevelList.h, SplashScreen.cpp)
 - Added new, separate text format "m_pTextFormatMenu" for Main Menu (Graphics.cpp/.h, ErrorList.txt)
 - New function RenderTextMenu added (Graphics.cpp/.h)
 - Implementation of DrawLine (Graphics.cpp/.h)
@@ -24,7 +30,7 @@
 [build 20180910] [1.1]
 - Implementation of DirectWrite (Graphics.cpp/.h, Level1.cpp, ErrorList.txt)
 - Stroke Style initializations moved to Graphics::Init (Graphics.cpp/.h, ErrorList.txt)
-- Simplified syntax for 2D geometrical objects (Graphics.cpp/.h)
+- Simplified syntax for 2D geometric objects (Graphics.cpp/.h)
 
 [build 20180907] [1.0]
 - Added function GameController::UnLoad() (GameController.cpp/.h, main.cpp)
@@ -33,24 +39,24 @@
 
 [build 20180901] [1.0]
 - Added file MEUtils.h for debugging/helper/utility functions etc. (Graphics.cpp, main.cpp)
-- Improved Error checking (MEUtils.h, SpriteSheet.cpp, ErrorList.txt)
-- Implemented new 2D geometrical objects (Graphics.cpp/.h, Level2.cpp)
+- Improved error checking (MEUtils.h, SpriteSheet.cpp, ErrorList.txt)
+- Implemented new 2D geometric objects (Graphics.cpp/.h, Level2.cpp)
 
 [build 20180831] [1.0]
 - New sprites implemented (Level1.cpp/.h)
 - Added new spritesheet for animated star (Level1.cpp/.h)
 - Implemented Splash Screen which will very likely need further rework (SplashScreen.cpp/.h, LevelList.h, main.cpp)
-- Implemented new 2D geometrical objects (Graphics.cpp/.h, Level2.cpp)
+- Implemented new 2D geometric objects (Graphics.cpp/.h, Level2.cpp)
 
 [build 20180806] [1.0]
-- Added function ASSERT_D3D for improved Error logging (Graphics.cpp/ErrorList.txt)
+- Added function ASSERT_D3D for improved error logging (Graphics.cpp/ErrorList.txt)
 - Minor changes for member names/prefixes (Graphics.cpp/.h)
-- Implemented new 2D geometrical objects (Graphics.cpp/.h, Level2.cpp)
+- Implemented new 2D geometric objects (Graphics.cpp/.h, Level2.cpp)
 
 [build 20180729] [1.0]
-- Reworked old 2D geometrical objects + added new (Graphics.cpp/.h)
-- Added Level2 for testing purposes of 2D geometrical objects (Level2.cpp/.h, LevelList.h)
+- Reworked old 2D geometric objects + added new ones (Graphics.cpp/.h)
+- Added Level2 for testing purposes of 2D geometric objects (Level2.cpp/.h, LevelList.h)
 
 [build 20180724] [1.0]
 - SCREEN_WIDTH and SCREEN_HEIGHT values are now readable from settings.ini file (stdafx.h)
-- Updated "for loop" for rendering ground sprites, now the amount of rendered sprites depends on SCREEN_WIDTH value (Level1.cpp)
+- Updated 'for' loop for rendering ground sprites, now the amount of rendered sprites depends on SCREEN_WIDTH value (Level1.cpp)
