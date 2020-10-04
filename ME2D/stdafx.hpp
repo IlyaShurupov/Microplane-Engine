@@ -1,7 +1,7 @@
 //============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -27,12 +27,15 @@
 #include <Windows.h>
 #include <windowsx.h>
 
+//3rd
+#include "3rd/logutil/logutil/logutil.hpp"
 
-#define MEDEF_ENG_ENGNAME "Microplane Engine"           // Engine Name
-#define MEDEF_ENG_ENGABBV "ME2D"                        // Engine Name Abbreviation
-#define MEDEF_ENG_ENGVERD "1.1"                         // Engine Version
-#define MEDEF_ENG_ENGVERS "build 20181003"              // Engine Build/Secondary Version
-#define MEDEF_ENG_ENGDEVN "Ivan Kmeťo"                  // Engine Developer Name
 
-#define SCREEN_WIDTH GetPrivateProfileInt("GlobalSettings", "ScreenWidth", 800, ".\\settings.ini")
-#define SCREEN_HEIGHT GetPrivateProfileInt("GlobalSettings", "ScreenHeight", 600, ".\\settings.ini")
+#define MEDEF_ENG_ENGNAME "Microplane Engine"           //Engine Name
+#define MEDEF_ENG_ENGABBV "ME2D"                        //Engine Name Abbreviation
+#define MEDEF_ENG_ENGVERD "1.1"                         //Engine Version
+#define MEDEF_ENG_ENGVERS "build 20201004"              //Engine Build/Secondary Version
+#define MEDEF_ENG_ENGDEVN "Ivan Kmeťo"                  //Engine Developer Name
+
+#define SCREEN_WIDTH GetPrivateProfileInt("DisplaySettings", "ScreenWidth", 800, ".\\settings.ini")
+#define SCREEN_HEIGHT GetPrivateProfileInt("DisplaySettings", "ScreenHeight", 600, ".\\settings.ini")
