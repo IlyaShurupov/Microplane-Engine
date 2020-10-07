@@ -104,7 +104,7 @@ void Level1::Render()
 
 	s_sprites->Draw(frame % 4, (float)xPlayerPosition, (float)yPlayerPosition);             // Render Player
 
-	for (int i = 0; i < ((SCREEN_WIDTH / 64) + 2); i++)                                     // Render Bottom Ground
+	for (int i = 0; i < (((int)SCREEN_WIDTH / 64) + 2); i++)                                // Render Bottom Ground
 	{
 		s_sprites->Draw(SPRITEFRAME_GROUND, SCREEN_WIDTH - (64.0f * i), SCREEN_HEIGHT - 64.0f);
 	}
