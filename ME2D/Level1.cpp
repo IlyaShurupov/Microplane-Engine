@@ -25,6 +25,7 @@
 
 #include "stdafx.hpp"
 #include "GameController.h"
+#include "LevelList.hpp"
 #include "Graphics.h"
 #include "Level1.h"
 
@@ -57,14 +58,17 @@ void Level1::Update(double timeTotal, double timeDelta)
 		yPlayerPosition = (float)SCREEN_HEIGHT;
 	}
 
-	if (GetAsyncKeyState(VK_LEFT))
-	{
+
+	if (GetAsyncKeyState(VK_ESCAPE)) {
+		GameController::SwitchLevel(new MainMenu());
+	}
+
+	if (GetAsyncKeyState(VK_LEFT)) {
 		frame = SPRITEFRAME_PLAYER_LEFT;
 		xPlayerPosition -= 80.0f * timeDelta;
 	}
 
-	if (GetAsyncKeyState(VK_RIGHT))
-	{
+	if (GetAsyncKeyState(VK_RIGHT)) {
 		frame = SPRITEFRAME_PLAYER_RIGHT;
 		xPlayerPosition += 80.0f * timeDelta;
 	}
