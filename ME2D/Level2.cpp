@@ -25,6 +25,7 @@
 
 #include "stdafx.hpp"
 #include "GameController.h"
+#include "LevelList.hpp"
 #include "Graphics.h"
 #include "Level2.h"
 
@@ -42,6 +43,10 @@ void Level2::UnLoad()
 
 void Level2::Update(double timeTotal, double timeDelta)
 {
+	if (GetAsyncKeyState(VK_ESCAPE)) {
+		GameController::SwitchLevel(new MainMenu());
+	}
+
 	if (GetAsyncKeyState(VK_RIGHT) & 0x0001) {
 		if (uiMenuLID == UI_MENULIST_MAX) {
 			uiMenuLID = UI_MENULIST_MAX;
