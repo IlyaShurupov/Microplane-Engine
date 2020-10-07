@@ -90,8 +90,8 @@ SpriteSheet::SpriteSheet(wchar_t* filename, Graphics*gfx)
 	if (wicConverter) wicConverter->Release();
 	if (wicFrame) wicFrame->Release();
 
-	spriteWidth = bmp->GetSize().width;
-	spriteHeight = bmp->GetSize().height;
+	spriteWidth = (int)bmp->GetSize().width;
+	spriteHeight = (int)bmp->GetSize().height;
 	spritesAccross = 1;
 }
 
