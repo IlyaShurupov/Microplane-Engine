@@ -31,11 +31,11 @@ static uint16_t getMousePosX; //Capture Mouse Position X from lParam in LRESULT 
 static uint16_t getMousePosY; //Capture Mouse Position Y from lParam in LRESULT CALLBACK WindowProc [main.cpp]
 
 
-static const std::string s_debugMsg = std::string(MEDEF_ENG_ENGABBV) + " " + std::string(MEDEF_ENG_ENGVERD) + " (" + std::string(MEDEF_ENG_ENGVERS) + ") (Debug)";
-static std::wstring MEUTL_DBG_ENGDMSG(s_debugMsg.begin(), s_debugMsg.end());
+static const std::string str_debugMsg = std::string(MEDEF_ENG_ENGABBV) + " " + std::string(MEDEF_ENG_ENGVERD) + " (" + std::string(MEDEF_ENG_ENGVERS) + ") (Debug)";
+static std::wstring ME_STRING_DEBUG_VERSION(str_debugMsg.begin(), str_debugMsg.end());
 
-static const std::string s_logEngineInfo = MEDEF_USR_APPNAME " | " MEDEF_USR_APPDEVN " | " MEDEF_USR_APPVERD " | " MEDEF_USR_APPVERS "\n"
-                                           MEDEF_ENG_ENGNAME " (" MEDEF_ENG_ENGABBV ") | " MEDEF_ENG_ENGVERD " | " MEDEF_ENG_ENGVERS "\n--------------\n";
+static const std::string str_logEngineInfo = MEDEF_USR_APPNAME " | " MEDEF_USR_APPDEVN " | " MEDEF_USR_APPVERD " | " MEDEF_USR_APPVERS "\n"
+                                             MEDEF_ENG_ENGNAME " (" MEDEF_ENG_ENGABBV ") | " MEDEF_ENG_ENGVERD " | " MEDEF_ENG_ENGVERS "\n--------------\n";
 
 
 static void ASSERT_ME2D(HRESULT value, std::string description, std::string msgboxTitle) {
