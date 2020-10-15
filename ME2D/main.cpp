@@ -22,7 +22,7 @@
 //============================================================================
 
 #include "appconfig.hpp"
-#include "MEUtils.h"
+#include "CoreModule.hpp"
 
 #include "Graphics.h"
 #include "GameController.h"
@@ -44,7 +44,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmd, int nCmdShow)
 {
 	logutil::file_clear("debug.log");
-	logutil::write_to_file(s_logEngineInfo, "debug.log");
+	logutil::write_to_file(str_logEngineInfo, "debug.log");
 
 	WNDCLASSEX windowclass;
 	ZeroMemory(&windowclass, sizeof(WNDCLASSEX));
