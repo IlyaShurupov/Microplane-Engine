@@ -23,14 +23,14 @@
 
 #pragma once
 
-#include"Graphics.h"								// [Windows.h + D2D1.h]
-#include<wincodec.h>								// WIC codec header for decoding image from file
+#include"Graphics.hpp"                              // Windows.h + D2D1.h
+#include<wincodec.h>                                // WIC codec header for decoding image from file
 #pragma comment(lib, "windowscodecs.lib")
 
 class SpriteSheet
 {
 	Graphics* gfx;
-	ID2D1Bitmap* bmp;								// Bitmap loaded file and converted to Direct2D format
+	ID2D1Bitmap* bmp;                               // Bitmap loaded file and converted to Direct2D format
 
 	int spriteWidth;
 	int spriteHeight;
@@ -51,9 +51,9 @@ public:
 
 	//Draw method specified for Bitmap Atlas
 	void Draw(
-		int index,									// Index of sprite drawn within Bitmap Atlas
-		float x,									// X Position to draw picture
-		float y										// Y Position to draw picture
+		int index,                                  // Index of sprite drawn within Bitmap Atlas
+		float x,                                    // X Position to draw picture
+		float y                                     // Y Position to draw picture
 	);
 
 };
