@@ -23,7 +23,7 @@
 
 #include "stdafx.hpp"
 #include "SpriteSheet.h"
-#include "meUtils.h"
+#include "CoreModule.hpp"
 
 
 SpriteSheet::SpriteSheet(wchar_t* filename, Graphics*gfx)
