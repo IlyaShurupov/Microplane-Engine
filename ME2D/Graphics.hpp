@@ -1,7 +1,7 @@
 //============================================================================
 // Microplane Engine - ME2D
 //----------------------------------------------------------------------------
-// Copyright (c) 2018 Ivan Kmeťo
+// Copyright (c) 2018, 2020 Ivan Kmeťo
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -23,29 +23,22 @@
 
 #pragma once
 
-#include <Windows.h>
-#include <sstream>
-
-#include<d2d1.h>
-#pragma comment(lib, "d2d1.lib")
-
-#include<dwrite.h>
-#pragma comment(lib, "dwrite.lib")
+#include "stdafx.hpp"
 
 
 typedef enum ME_TYPE2D_FILL : uint8_t {
-	ME2D_FILL_NONE = 0,
-	ME2D_FILL_PRIMARY = 1,
-	ME2D_FILL_SECONDARY = 2
+	ME2D_FILL_NONE = 0x00,
+	ME2D_FILL_PRIMARY = 0x01,
+	ME2D_FILL_SECONDARY = 0x02
 } ME_TYPE2D_FILL;
 
 typedef enum ME_TYPE2D_OUTLINE : uint8_t {
-	ME2D_OUTLINE_NONE = 0,
-	ME2D_OUTLINE_SOLID = 1,
-	ME2D_OUTLINE_DOTTED = 2,
-	ME2D_OUTLINE_DASHED = 3,
-	ME2D_OUTLINE_DASH_DOTTED = 4,
-	ME2D_OUTLINE_DASH_DOT_DOTTED = 5
+	ME2D_OUTLINE_NONE = 0x00,
+	ME2D_OUTLINE_SOLID = 0x01,
+	ME2D_OUTLINE_DOTTED = 0x02,
+	ME2D_OUTLINE_DASHED = 0x03,
+	ME2D_OUTLINE_DASH_DOTTED = 0x04,
+	ME2D_OUTLINE_DASH_DOT_DOTTED = 0x05
 } ME_TYPE2D_OUTLINE;
 
 
