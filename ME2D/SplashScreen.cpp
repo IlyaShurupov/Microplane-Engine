@@ -28,7 +28,7 @@
 #include "Graphics.h"
 #include "SplashScreen.h"
 #include "LevelList.hpp"
-#include "MEUtils.h"
+#include "CoreModule.hpp"
 
 
 void SplashScreen::Load()
@@ -65,7 +65,7 @@ void SplashScreen::Render()
 
 
 #	ifdef _DEBUG
-		gfx->RenderText(MEUTL_DBG_ENGDMSG, (SCREEN_WIDTH - 200.0f), (SCREEN_HEIGHT - 25.0f), 1.0f, 1.0f, 1.0f, 1.0f);
+		gfx->RenderText(ME_STRING_DEBUG_VERSION, (SCREEN_WIDTH - 200.0f), (SCREEN_HEIGHT - 25.0f), 1.0f, 1.0f, 1.0f, 1.0f);
 #	endif
 
 }
