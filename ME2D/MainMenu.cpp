@@ -28,7 +28,7 @@
 #include "Graphics.h"
 #include "MainMenu.h"
 #include "LevelList.hpp"
-#include "MEUtils.h"
+#include "CoreModule.hpp"
 
 
 void MainMenu::Load()
@@ -120,7 +120,7 @@ void MainMenu::Render()
 
 
 #ifdef _DEBUG
-	gfx->RenderText(MEUTL_DBG_ENGDMSG, (float)(SCREEN_WIDTH - 200), (float)(SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
+	gfx->RenderText(ME_STRING_DEBUG_VERSION, (float)(SCREEN_WIDTH - 200), (float)(SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
 #endif
 
 }
