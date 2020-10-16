@@ -1,3 +1,15 @@
+[build 20201016] [1.1]
+- Fix x86 debug compiler warnings (Level1.cpp, HPTimer.h, SpriteSheet.h, SpriteSheet.cpp)
+- ESCAPE key now switches levels back to main menu (Level1.cpp, Level2.cpp)
+- MEUtils.h -> CoreModule.hpp
+- Graphics.h -> Graphics.hpp
+- SpriteSheet.h -> SpriteSheet.hpp
+- s_debugMsg -> str_debugMsg (CoreModule.hpp)
+- MEUTL_DBG_ENGDMSG -> ME_STRING_DEBUG_VERSION (CoreModule.hpp)
+- s_logEngineInfo -> str_logEngineInfo (CoreModule.hpp)
+- Moved Direct2D and DirectWrite headers/libs from Graphics.hpp to stdafx.hpp
+- Specified ME_TYPE2D_FILL and ME_TYPE2D_OUTLINE in uint8_t form (Graphics.hpp)
+
 [build 20201004] [1.1]
 - *.h -> *.hpp (LevelList.hpp, stdafx.hpp)
 - uConfig.h -> appconfig.hpp
