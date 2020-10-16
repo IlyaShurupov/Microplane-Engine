@@ -23,9 +23,21 @@
 
 #pragma once
 
+
+#include <sstream>
+
 //Windows Header Files
 #include <Windows.h>
 #include <windowsx.h>
+
+//Direct2D
+#include<d2d1.h>
+#pragma comment(lib, "d2d1.lib")
+
+//DirectWrite
+#include<dwrite.h>
+#pragma comment(lib, "dwrite.lib")
+
 
 //3rd
 #include "3rd/logutil/logutil/logutil.hpp"
@@ -34,7 +46,7 @@
 #define MEDEF_ENG_ENGNAME "Microplane Engine"           //Engine Name
 #define MEDEF_ENG_ENGABBV "ME2D"                        //Engine Name Abbreviation
 #define MEDEF_ENG_ENGVERD "1.1"                         //Engine Version
-#define MEDEF_ENG_ENGVERS "build 20201004"              //Engine Build/Secondary Version
+#define MEDEF_ENG_ENGVERS "build 20201016"              //Engine Build/Secondary Version
 #define MEDEF_ENG_ENGDEVN "Ivan Kmeťo"                  //Engine Developer Name
 
 #define SCREEN_WIDTH GetPrivateProfileInt("DisplaySettings", "ScreenWidth", 800, ".\\settings.ini")
