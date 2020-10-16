@@ -21,7 +21,7 @@
 //
 //============================================================================
 
-#include "Graphics.h"
+#include "Graphics.hpp"
 #include "CoreModule.hpp"
 
 
