@@ -22,7 +22,7 @@
 //============================================================================
 
 #include "stdafx.hpp"
-#include "SpriteSheet.h"
+#include "SpriteSheet.hpp"
 #include "CoreModule.hpp"
 
 
