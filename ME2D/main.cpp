@@ -24,7 +24,7 @@
 #include "appconfig.hpp"
 #include "CoreModule.hpp"
 
-#include "Graphics.h"
+#include "Graphics.hpp"
 #include "GameController.h"
 #include "LevelList.hpp"
 
