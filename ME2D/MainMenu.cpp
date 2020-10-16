@@ -25,7 +25,7 @@
 
 #include "stdafx.hpp"
 #include "GameController.h"
-#include "Graphics.h"
+#include "Graphics.hpp"
 #include "MainMenu.h"
 #include "LevelList.hpp"
 #include "CoreModule.hpp"
