@@ -23,9 +23,9 @@
 
 #pragma once
 
-#include "GameLevel.h"
+#include "GameLevel.hpp"
 #include "Graphics.hpp"
-#include "HPTimer.h"
+#include "HPTimer.hpp"
 
 class GameController
 {
