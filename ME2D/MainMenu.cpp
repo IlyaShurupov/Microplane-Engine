@@ -24,7 +24,7 @@
 //============================================================================
 
 #include "stdafx.hpp"
-#include "GameController.h"
+#include "GameController.hpp"
 #include "Graphics.hpp"
 #include "MainMenu.h"
 #include "LevelList.hpp"
@@ -119,8 +119,8 @@ void MainMenu::Render()
 	}
 
 
-#ifdef _DEBUG
-	gfx->RenderText(ME_STRING_DEBUG_VERSION, (float)(SCREEN_WIDTH - 200), (float)(SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
-#endif
+#	ifdef _DEBUG
+		gfx->RenderText(ME_STRING_DEBUG_VERSION, (float)(SCREEN_WIDTH - 200), (float)(SCREEN_HEIGHT - 25), 1.0f, 1.0f, 1.0f, 1.0f);
+#	endif
 
 }
