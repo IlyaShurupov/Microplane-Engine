@@ -24,7 +24,7 @@
 //============================================================================
 
 #include "stdafx.hpp"
-#include "GameController.h"
+#include "GameController.hpp"
 
 GameLevel* GameController::currentLevel;
 bool GameController::Loading;
