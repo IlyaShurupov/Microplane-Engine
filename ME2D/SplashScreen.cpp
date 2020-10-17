@@ -24,7 +24,7 @@
 //============================================================================
 
 #include "stdafx.hpp"
-#include "GameController.h"
+#include "GameController.hpp"
 #include "Graphics.hpp"
 #include "SplashScreen.h"
 #include "LevelList.hpp"
