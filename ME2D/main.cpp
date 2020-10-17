@@ -25,7 +25,7 @@
 #include "CoreModule.hpp"
 
 #include "Graphics.hpp"
-#include "GameController.h"
+#include "GameController.hpp"
 #include "LevelList.hpp"
 
 Graphics* graphics;
