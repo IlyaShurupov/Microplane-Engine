@@ -22,6 +22,6 @@
 //============================================================================
 
 #include "stdafx.hpp"
-#include "GameLevel.h"
+#include "GameLevel.hpp"
 
 Graphics* GameLevel::gfx;
