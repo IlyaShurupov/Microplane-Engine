@@ -30,6 +30,9 @@
 #include <Windows.h>
 #include <windowsx.h>
 
+#include<wincodec.h>                                // WIC codec header for decoding image from file
+#pragma comment(lib, "windowscodecs.lib")
+
 //Direct2D
 #include<d2d1.h>
 #pragma comment(lib, "d2d1.lib")
@@ -46,7 +49,7 @@
 #define MEDEF_ENG_ENGNAME "Microplane Engine"           //Engine Name
 #define MEDEF_ENG_ENGABBV "ME2D"                        //Engine Name Abbreviation
 #define MEDEF_ENG_ENGVERD "1.1"                         //Engine Version
-#define MEDEF_ENG_ENGVERS "build 20201016"              //Engine Build/Secondary Version
+#define MEDEF_ENG_ENGVERS "build 20201021"              //Engine Build/Secondary Version
 #define MEDEF_ENG_ENGDEVN "Ivan Kmeťo"                  //Engine Developer Name
 
 #define SCREEN_WIDTH GetPrivateProfileInt("DisplaySettings", "ScreenWidth", 800, ".\\settings.ini")
