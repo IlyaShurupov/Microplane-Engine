@@ -30,7 +30,7 @@
 #define MEDEF_USR_APPVERS "0"                           //Application Build/Secondary Version (if needed)
 #define MEDEF_USR_APPDEVN "X"                           //Application Developer Name
 
-#define MEDEF_RES_WINTITL "ME2D"                        //Window Title
+#define MEDEF_RES_WINTITL "ME2D (Direct2D)"             //Window Title
 #define MEDEF_RES_WINICON "icon.ico"                    //Window Icon File Path
 
 //[resources.rc] macros
