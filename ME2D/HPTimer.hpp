@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include <Windows.h>
+#include "stdafx.hpp"
 
 class HPTimer
 {
