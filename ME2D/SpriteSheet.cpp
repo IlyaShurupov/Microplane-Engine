@@ -21,7 +21,6 @@
 //
 //============================================================================
 
-#include "stdafx.hpp"
 #include "SpriteSheet.hpp"
 #include "CoreModule.hpp"
 
