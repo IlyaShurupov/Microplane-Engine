@@ -1,3 +1,7 @@
+[build 20201021] [1.1]
+- *.h -> *.hpp (GameLevel.hpp, GameController.hpp, HPTimer.hpp)
+- Header cleanup (HPTimer.hpp, SpriteSheet.hpp, SpriteSheet.cpp, stdafx.hpp)
+
 [build 20201016] [1.1]
 - Fix x86 debug compiler warnings (Level1.cpp, HPTimer.h, SpriteSheet.h, SpriteSheet.cpp)
 - ESCAPE key now switches levels back to main menu (Level1.cpp, Level2.cpp)
