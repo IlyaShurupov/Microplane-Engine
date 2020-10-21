@@ -23,9 +23,9 @@
 
 #pragma once
 
-#include"Graphics.hpp"                              // Windows.h + D2D1.h
-#include<wincodec.h>                                // WIC codec header for decoding image from file
-#pragma comment(lib, "windowscodecs.lib")
+
+#include "stdafx.hpp"
+#include "Graphics.hpp"
 
 class SpriteSheet
 {
